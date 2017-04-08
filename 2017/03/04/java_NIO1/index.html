@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式,java io,RPC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="I/O的阻塞、非阻塞、同步、异步特别说明。及IO编程模型对比、分析、使用。">
+<meta name="keywords" content="设计模式,java io,RPC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BIO、NIO、AIO编程详解(上)">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/java_NIO1/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="I/O的阻塞、非阻塞、同步、异步特别说明。及IO编程模型对比、分析、使用。">
+<meta property="og:image" content="http://yoursite.com/image/bioPattern.png">
+<meta property="og:updated_time" content="2017-04-08T15:59:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BIO、NIO、AIO编程详解(上)">
+<meta name="twitter:description" content="I/O的阻塞、非阻塞、同步、异步特别说明。及IO编程模型对比、分析、使用。">
+<meta name="twitter:image" content="http://yoursite.com/image/bioPattern.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/04/java_NIO1/"/>
+
+
+
+
+
+  <title> BIO、NIO、AIO编程详解(上) | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/java_NIO1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                BIO、NIO、AIO编程详解(上)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T16:17:15+08:00">
+                2017-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/netty/" itemprop="url" rel="index">
+                    <span itemprop="name">netty</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/04/java_NIO1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/java_NIO1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2017/03/04/java_NIO1/" class="leancloud_visitors" data-flag-title="BIO、NIO、AIO编程详解(上)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  I/O的阻塞、非阻塞、同步、异步特别说明。及IO编程模型对比、分析、使用。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="BIO、NIO、AIO编程详解-上"><a href="#BIO、NIO、AIO编程详解-上" class="headerlink" title="BIO、NIO、AIO编程详解(上)"></a>BIO、NIO、AIO编程详解(上)</h1><p>@(IO)[BIO|NIO|AIO]</p>
+<p>在进行I/O编程之前，首先要理解I/O的四个特点：阻塞(Blocking-IO),非阻塞(non-blocking),同步(synchronous),异步(asynchronous )</p>
+<p>把他们阻塞在一起就有了：</p>
+<ul>
+<li><strong>同步阻塞IO（Java BIO）</strong></li>
+<li><strong>同步非阻塞IO（Java NIO）</strong></li>
+<li><strong>异步非阻塞IO（Java AIO/NIO）</strong></li>
+</ul>
+<h2 id="概念解释"><a href="#概念解释" class="headerlink" title="概念解释"></a>概念解释</h2><ul>
+<li><p>什么是同步(synchronous)?什么是异步(asynchronous)？</p>
+<blockquote>
+<p> 同步(synchronous)： 你总是做完一件再去做另一件，不管是否需要时间等待，这就是同步(就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回,即此时不能做下一件事情);</p>
+<p> 异步(asynchronous)：异步则反之，你可以同时做几件事，并非一定需要一件事做 完再做另一件事(当一个异步过程调用发出后，调用者不能立刻得到结果,此时可以接着做其它事情)。同步简单理解成一问一答同步进行，异步可以简单理解为不必等一个问题有了答案再去问另一个问题，尽管问，有答了再通知你。</p>
+</blockquote>
+</li>
+<li><p>什么是阻塞(Blocking)？什么是非阻塞(non-Blocking)？</p>
+<blockquote>
+<p>阻塞和非阻塞是针对于当前线程的状态而言的。如果程序调用一个函数，这个函数还没返回结果时，当前线程被挂起了，那么这个程序就是阻塞的。如果程序调用一个函数时，这个函数还没返回结果时，当前线程还在处理其它的事情，那么这个程序是非阻塞程序。</p>
+<p>比如说：你去饭店吃饭，当你点了饭，饭还没做好的时候，如果你是阻塞式调用，你就会把自己“挂起”，知道你点的饭做好之后；如果你是非阻塞式调用，不管饭有没有做好，你自己去做别的事去了，只不过过几分钟来检查一下饭有没有做好。</p>
+</blockquote>
+</li>
+</ul>
+<p>可以看到阻塞与非阻塞的区别是自己本身的状态，阻塞是自己被挂起了，不能做任何事情了；非阻塞是自己还可以去做别的事情。而同步非同步指的是两件事之间的顺序，如果一件事做完才能做另一件事，那就是同步；如果两件事可以同时进行，那就是异步。</p>
+<ul>
+<li>阻塞和同步的区别！<blockquote>
+<p><strong>阻塞并不代表同步！</strong><br>如同步非阻塞型函数(Socket的recv函数)，在socket中调用recv函数，如果缓冲区中没有数据，这个函数就会一直等待，直到有数据才返回。而此时，当前线程还会继续处理各种各样的消息。这时候是同步但不是阻塞。也就是我必须在饭做好之后才可以吃饭，但是我在饭还没做好的时候可以去做其它事情。</p>
+<p>如异步阻塞型I/O，两件事可以同时进行，但是这两件事都是阻塞型事情。如吃饭和踢球这两件事可以同时进行，但是在吃饭的时候，自己处于“挂起”状态，不能去做其它事情了。这时候是异步阻塞。</p>
+</blockquote>
+</li>
+</ul>
+<p>有时候换一种思考方式就好理解了，如同步就是饭店做饭和自己吃饭的关系；异步就是饭店做饭和自己踢球的关系；而阻塞是指自己在做其中某一件事情时的状态，如在饭店做饭的时候，自己如果只是在原地默默的等着，那就是阻塞；如果饭店在做饭的时候，自己还可以去做别的事情，就是非阻塞。阻塞与非阻塞在代码中只是设计上的不同。</p>
+<p><strong>阻塞与非阻塞的着重点是：自己的状态。</strong><br><strong>同步与非同步的着重点是：两件事情的顺序。</strong></p>
+<h2 id="java传统BIO模型的实践与分析"><a href="#java传统BIO模型的实践与分析" class="headerlink" title="java传统BIO模型的实践与分析"></a>java传统BIO模型的实践与分析</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>本文对IO模型的实践全都是以网络socket通信为原型进行分析与实践。<br><img src="/image/bioPattern.png" alt="bio模型"><br>基于BIO的Socket通讯过程为：</p>
+<ul>
+<li><ol>
+<li>服务端正常启动，打开端口，并阻塞在accept()方法。此时线程被挂起，系统不会分配CPU时间片给此线程。</li>
+</ol>
+</li>
+<li><ol>
+<li>有客户端打开连接。此时服务端停止阻塞，线程处于就绪状态，随时可以获取到CPU的执行权。</li>
+</ol>
+</li>
+<li><ol>
+<li>服务端开启一个新线程用来处理本次请求。</li>
+</ol>
+</li>
+<li><ol>
+<li>客户端与服务端进行I/O交互。(同步且阻塞式交互)</li>
+</ol>
+</li>
+</ul>
+<p><strong>重点是看第4、5两步。</strong></p>
+<p>客户端和服务端进行交互的顺序一般为：1.客户端发送消息到服务端 2.服务端接受消息并处理完毕后，写入响应消息返回给客户端 3.客户端读取响应回来的消息 4.读取后进行反馈，再次发送消息到服务端 …</p>
+<p>当一个客户端连接到服务端，服务端还处理完毕的时候，其它的客户端无法连接到服务端(这就是它的同步特点！可以通过多线程实现异步，但是并不是BIO本身提供的机制)。</p>
+<p>用传统的Socket方式进行通讯可以发现，客户端和服务端使用这种I/O方式通讯只能是一问一答模式的。也就是说客户端发出消息，只有当服务端响应消息之后客户端才能再次发送消息(这里就是I/O的同步特点)，虽然可以通过线程池开启新线程的方式进行异步处理，解除了一问一答的限制，但是无法从根源上解决问题，因为读取和写入都是阻塞式方法,下面查看Java API文档：</p>
+<p>查看java的InputStream的read()方法上的API说明：</p>
+<blockquote>
+<p>This method blocks until input data is available, end of file is detected, or an exception is thrown.</p>
+</blockquote>
+<p>read方法是阻塞方法，当读取输入流的时候它会一直阻塞下去，除非发生以下三种情况：</p>
+<ul>
+<li><ol>
+<li>有数据可读</li>
+</ol>
+</li>
+<li><ol>
+<li>可用数据已经读取完毕</li>
+</ol>
+</li>
+<li><ol>
+<li>发生空指针或者I/O异常</li>
+</ol>
+</li>
+</ul>
+<p>查看OutputStream的write()方法上的API说明：</p>
+<blockquote>
+<p>Writes an array of bytes.This method will block until the bytes are actually written.</p>
+</blockquote>
+<p>write方法写输出流的时候，它将会被阻塞，直到所有要发送的字节全部写入完毕，或者发生异常。</p>
+<p><strong>通过对输入输出流的API文档分析，我们可以发现写入流和读取流中的数据都是阻塞的，阻塞的时间取决于对方I/O线程的处理速度和网络I/O的传输速度。</strong></p>
+<p>也就是虽然可以通过线程池的方式达到伪异步处理，但是这种I/O方式在进行读流或者写流的时候都可能出现阻塞的情况，在实际生产中，我们的应用依赖于服务端的处理速度，所以它的可靠性就比较差。采用多线程方式进行伪异步处理，如果服务端处理60s,那么我们的I/O线程就会阻塞60s,并且开启线程会加大服务器开销。</p>
+<p><strong>下面是伪异步I/O模式的代码展示</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.Reactor.BIO2;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * BIO 客户端</div><div class="line"> * Created by Tnp.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BIOClient</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        BufferedWriter bufferedWriter = <span class="keyword">null</span>;</div><div class="line">        BufferedReader bufferedReader = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="comment">//1.创建连接服务器的socket</span></div><div class="line">            Socket socket = <span class="keyword">new</span> Socket(<span class="string">"127.0.0.1"</span>,<span class="number">9999</span>);</div><div class="line"></div><div class="line">            <span class="comment">//2.获取输出流</span></div><div class="line">            bufferedWriter = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(socket.getOutputStream()));</div><div class="line"></div><div class="line">            <span class="comment">//3.获取输入流</span></div><div class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</div><div class="line"></div><div class="line">            <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;            <span class="comment">//循环读取与发送</span></div><div class="line">                <span class="comment">//4.发送内容</span></div><div class="line">                bufferedWriter.write(<span class="string">"Query tIme"</span>);</div><div class="line">                bufferedWriter.newLine();</div><div class="line">                bufferedWriter.flush();</div><div class="line"></div><div class="line">                <span class="comment">//5.读取内容</span></div><div class="line">                <span class="comment">/***</span></div><div class="line">                 * 如果要解除一问一答的限制，这里需要开启一个新线程进行读取服务端响应回来的消息。(略)</div><div class="line">                 */</div><div class="line">                String line = bufferedReader.readLine();</div><div class="line">                System.out.println(line);</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;<span class="keyword">finally</span>&#123;</div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                <span class="keyword">if</span>(bufferedReader != <span class="keyword">null</span>)&#123;</div><div class="line">                    bufferedReader.close();</div><div class="line">                    bufferedReader = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(bufferedWriter != <span class="keyword">null</span>)&#123;</div><div class="line">                    bufferedWriter.close();</div><div class="line">                    bufferedWriter = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;<span class="keyword">catch</span>(IOException e)&#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">package</span> com.designPattern.Reactor.BIO2;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.net.ServerSocket;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * BIO服务端</div><div class="line"> * Created by Tnp.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BIOServer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        ServerSocket serverSocket = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="comment">//1.开启本地端口</span></div><div class="line">            serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9999</span>);</div><div class="line"></div><div class="line">            <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</div><div class="line">                <span class="comment">//2.阻塞线程-等待连接</span></div><div class="line">                Socket socket = serverSocket.accept();</div><div class="line">                <span class="comment">//3.开启线程处理该请求</span></div><div class="line">                <span class="keyword">new</span> Thread(<span class="keyword">new</span> BIOServerHelper(socket)).start();</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">package</span> com.designPattern.Reactor.BIO2;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Tnp.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BIOServerHelper</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Socket socket;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BIOServerHelper</span><span class="params">(Socket socket)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.socket = socket;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        BufferedReader bufferedReader = <span class="keyword">null</span>;</div><div class="line">        BufferedWriter bufferedWriter = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="comment">//1.获取输入流</span></div><div class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</div><div class="line">            <span class="comment">//2.获取输出流</span></div><div class="line">            bufferedWriter = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(socket.getOutputStream()));</div><div class="line"></div><div class="line"></div><div class="line">            <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</div><div class="line">                <span class="comment">//3.获取请求内容</span></div><div class="line">                String req;</div><div class="line">                req = bufferedReader.readLine();</div><div class="line">                System.out.println(req);</div><div class="line">                <span class="comment">/**</span></div><div class="line">                 * 如果要解除一问一答的限制，这里需要开启一个新线程进行写入流来响应客户端的消息。(略)</div><div class="line">                 */</div><div class="line">                <span class="comment">//4.响应内容</span></div><div class="line">                bufferedWriter.write(<span class="keyword">new</span> Date(System.currentTimeMillis()).toString());</div><div class="line">                bufferedWriter.newLine();</div><div class="line">                bufferedWriter.flush();</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">catch</span>(IOException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;<span class="keyword">finally</span>&#123;</div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                <span class="keyword">if</span>(bufferedReader != <span class="keyword">null</span>)&#123;</div><div class="line">                    bufferedReader.close();</div><div class="line">                    bufferedReader = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(bufferedWriter != <span class="keyword">null</span>)&#123;</div><div class="line">                    bufferedWriter.close();</div><div class="line">                    bufferedWriter = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;<span class="keyword">catch</span>(IOException e)&#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>JAVA BIO是同步阻塞型IO，同步体现在当一个用户连接到服务端，并且没有服务端处理完这个用户请求的时候，下一个用户就无法连接到服务端(这一点可以通过线程池优化，但是并解决不了BIO的本质，BIO还是同步的IO.);阻塞体现在：1.它是面向流的IO.读流或者写流操作都是阻塞的，如果没有数据可读或者数据还没有写入完成，那么线程就会阻塞在这里;2.调用serverSocket.accept()方法时也是阻塞的。所以说BIO是同步阻塞型IO.</p>
+<p>server导致阻塞的原因：</p>
+<p>1、serversocket的accept方法，阻塞等待client连接，直到client连接成功。</p>
+<p>2、线程从socket inputstream读入数据，会进入阻塞状态，直到全部数据读完。</p>
+<p>3、线程向socket outputstream写入数据，会阻塞直到全部数据写完。</p>
+<p>client导致阻塞的原因：</p>
+<p>1、client建立连接时会阻塞，直到连接成功。</p>
+<p>2、线程从socket输入流读入数据，如果没有足够数据读完会进入阻塞状态，直到有数据或者读到输入流末尾。</p>
+<p>3、线程从socket输出流写入数据，直到输出所有数据。</p>
+<p>4、socket.setsolinger()设置socket的延迟时间，当socket关闭时，会进入阻塞状态，直到全部数据都发送完或者超时。<br>既然NIO是非阻塞型IO,那么NIO要解决的问题就是1.在客户端与服务端进行交互期间不会因为处理速度等原因而使线程处于阻塞;2.服务端开启之后不会因为没有用户连接而阻塞。</p>
+<p><strong>未完</strong><br>下一篇：BIO、NIO、AIO编程详解(中)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/java-io/" rel="tag"># java io</a>
+          
+            <a href="/tags/RPC/" rel="tag"># RPC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/04/Nginx配置之tomcat配置/" rel="next" title="Nginx配置tomcat">
+                <i class="fa fa-chevron-left"></i> Nginx配置tomcat
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/03/Nginx简介安装及使用/" rel="prev" title="Nginx的简介、安装、使用">
+                Nginx的简介、安装、使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BIO、NIO、AIO编程详解-上"><span class="nav-number">1.</span> <span class="nav-text">BIO、NIO、AIO编程详解(上)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念解释"><span class="nav-number">1.1.</span> <span class="nav-text">概念解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java传统BIO模型的实践与分析"><span class="nav-number">1.2.</span> <span class="nav-text">java传统BIO模型的实践与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">1.2.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.2.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

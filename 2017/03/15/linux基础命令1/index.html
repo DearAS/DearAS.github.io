@@ -1,0 +1,926 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="linux基础命令">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux基础命令(1)">
+<meta property="og:url" content="http://yoursite.com/2017/03/15/linux基础命令1/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="linux基础命令">
+<meta property="og:updated_time" content="2017-04-08T14:15:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux基础命令(1)">
+<meta name="twitter:description" content="linux基础命令">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/15/linux基础命令1/"/>
+
+
+
+
+
+  <title> linux基础命令(1) | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/linux基础命令1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linux基础命令(1)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T22:00:57+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/‘linux’/" itemprop="url" rel="index">
+                    <span itemprop="name">‘linux’</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/15/linux基础命令1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/15/linux基础命令1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2017/03/15/linux基础命令1/" class="leancloud_visitors" data-flag-title="linux基础命令(1)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  linux基础命令
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="linux基础命令"><a href="#linux基础命令" class="headerlink" title="linux基础命令"></a>linux基础命令</h1><h2 id="第一部分-基本常用命令"><a href="#第一部分-基本常用命令" class="headerlink" title="第一部分 基本常用命令"></a>第一部分 基本常用命令</h2><p>说明：安装linux时，创建一个用户，然后使用root用户登陆系统</p>
+<p>1.进入到用户根目录<br>cd ~ 或 cd</p>
+<p>2.查看当前所在目录<br>pwd</p>
+<p>3.进入到tnp用户根目录<br>cd ~tnp</p>
+<p>4.返回到原来目录<br>cd -</p>
+<p>5.返回到上一级目录<br>cd ..</p>
+<p>6.查看tnp用户根目录下的所有文件<br>ls -la</p>
+<p>7.在根目录下创建一个tnp的文件夹<br>mkdir /tnp</p>
+<p>8.在/tnp目录下创建src和WebRoot两个文件夹<br>分别创建：mkdir /tnp/src<br>          mkdir /tnp/WebRoot<br>同时创建：mkdir /tnp/{src,WebRoot}</p>
+<p>进入到/tnp目录，在该目录下创建.classpath和README文件<br>分别创建：touch .classpath<br>          touch README<br>同时创建：touch {.classpath,README}</p>
+<p>查看/tnp目录下面的所有文件<br>ls -la</p>
+<p>在/tnp目录下面创建一个test.txt文件,同时写入内容”this is test”<br>echo “this is test” &gt; test.txt</p>
+<p>查看一下test.txt的内容<br>cat test.txt<br>more test.txt<br>less test.txt</p>
+<p>向README文件追加写入”please read me first”<br>echo “please read me first” &gt;&gt; README</p>
+<p>将test.txt的内容追加到README文件中<br>cat test.txt &gt;&gt; README</p>
+<p>拷贝/tnp目录下的所有文件到/tnp-bak<br>cp -r /tnp /tnp-bak</p>
+<p>进入到/tnp-bak目录，将test.txt移动到src目录下，并修改文件名为Student.java<br>mv test.txt src/Student.java</p>
+<p>在src目录下创建一个struts.xml</p>
+<blockquote>
+<p>struts.xml</p>
+</blockquote>
+<p>删除所有的xml类型的文件<br>rm -rf *.xml</p>
+<p>删除/tnp-bak目录和下面的所有文件<br>rm -rf /tnp-bak</p>
+<p>返回到/tnp目录，查看一下README文件有多单词，多少个少行<br>wc -w README<br>wc -l README</p>
+<p>返回到根目录，将/tnp目录先打包，再用gzip压缩<br>分步完成：tar -cvf tnp.tar tnp<br>          gzip tnp.tar<br>一步完成：tar -zcvf tnp.tar.gz tnp</p>
+<p>将其解压缩，再取消打包<br>分步完成：gzip -d tnp.tar.gz 或 gunzip tnp.tar.gz<br>一步完成：tar -zxvf tnp.tar.gz</p>
+<p>将/tnp目录先打包，同时用bzip2压缩，并保存到/tmp目录下<br>tar -jcvf /tmp/tnp.tar.bz2 tnp</p>
+<p>将/tmp/tnp.tar.bz2解压到/usr目录下面<br>tar -jxvf tnp.tar.bz2 -C /usr/</p>
+<h2 id="第二部分-文件操作命令"><a href="#第二部分-文件操作命令" class="headerlink" title="第二部分 文件操作命令"></a>第二部分 文件操作命令</h2><p>1.进入到用户根目录<br>cd ~ 或者 cd<br>cd ~hadoop<br>回到原来路径<br>cd -</p>
+<p>2.查看文件详情<br>stat a.txt</p>
+<p>3.移动<br>mv a.txt /ect/<br>改名<br>mv b.txt a.txt<br>移动并改名<br>mv a.txt ../b.txt</p>
+<p>4拷贝并改名<br>cp a.txt /etc/b.txt</p>
+<p>5.vi撤销修改<br>ctrl + u (undo)<br>恢复<br>ctrl + r (redo)</p>
+<p>6.名令设置别名(重启后无效)<br>alias ll=”ls -l”<br>取消<br>unalias ll</p>
+<p>7.如果想让别名重启后仍然有效需要修改<br>vi ~/.bashrc</p>
+<p>8.添加用户<br>useradd hadoop<br>passwd hadoop</p>
+<p>9创建多个文件<br>touch a.txt b.txt<br>touch /home/{a.txt,b.txt}</p>
+<p>10.将一个文件的内容复制到里另一个文件中<br>cat a.txt &gt; b.txt<br>追加内容<br>cat a.txt &gt;&gt; b.txt </p>
+<p>11.将a.txt 与b.txt设为其拥有者和其所属同一个组者可写入，但其他以外的人则不可写入:<br>chmod ug+w,o-w a.txt b.txt</p>
+<p>chmod a=wx c.txt</p>
+<p>12.将当前目录下的所有文件与子目录皆设为任何人可读取:<br>chmod -R a+r *</p>
+<p>13.将a.txt的用户拥有者设为users,组的拥有者设为jessie:<br>chown users:jessie a.txt</p>
+<p>14.将当前目录下的所有文件与子目录的用户的使用者为lamport,组拥有者皆设为users，<br>chown -R lamport:users *</p>
+<p>15.将所有的java语言程式拷贝至finished子目录中:<br>cp *.java finished</p>
+<p>16.将目前目录及其子目录下所有扩展名是java的文件列出来。<br>find -name “<em>.java”<br>查找当前目录下扩展名是java 的文件<br>find -name </em>.java</p>
+<p>17.删除当前目录下扩展名是java的文件<br>rm -f *.java</p>
+<h2 id="第三部分-系统命令"><a href="#第三部分-系统命令" class="headerlink" title="第三部分 系统命令"></a>第三部分 系统命令</h2><p>1.查看主机名<br>hostname</p>
+<p>2.修改主机名(重启后无效)<br>hostname hadoop</p>
+<p>3.修改主机名(重启后永久生效)<br>vi /ect/sysconfig/network</p>
+<p>4.修改IP(重启后无效)<br>ifconfig eth0 192.168.12.22</p>
+<p>5.修改IP(重启后永久生效)<br>vi /etc/sysconfig/network-scripts/ifcfg-eth0</p>
+<p>6.查看系统信息<br>uname -a<br>uname -r</p>
+<p>7.查看ID命令<br>id -u<br>id -g</p>
+<p>8.日期<br>date<br>date +%Y-%m-%d<br>date +%T<br>date +%Y-%m-%d” “%T</p>
+<p>9.日历<br>cal 2012</p>
+<p>10.查看文件信息<br>file filename</p>
+<p>11.挂载硬盘<br>mount<br>umount<br>加载windows共享<br>mount -t cifs //192.168.1.100/tools /mnt</p>
+<p>12.查看文件大小<br>du -h<br>du -ah</p>
+<p>13.查看分区<br>df -h</p>
+<p>14.ssh<br>ssh hadoop@192.168.1.1</p>
+<p>15.关机<br>shutdown -h now /init 0<br>shutdown -r now /reboot</p>
+<h2 id="第四部分-用户和组"><a href="#第四部分-用户和组" class="headerlink" title="第四部分 用户和组"></a>第四部分 用户和组</h2><p>添加一个tom用户，设置它属于users组，并添加注释信息<br>分步完成：useradd tom<br>          usermod -g users tom<br>          usermod -c “hr tom” tom<br>一步完成：useradd -g users -c “hr tom” tom</p>
+<p>设置tom用户的密码<br>passwd tom</p>
+<p>修改tom用户的登陆名为tomcat<br>usermod -l tomcat tom</p>
+<p>将tomcat添加到sys和root组中<br>usermod -G sys,root tomcat</p>
+<p>查看tomcat的组信息<br>groups tomcat</p>
+<p>添加一个jerry用户并设置密码<br>useradd jerry<br>passwd jerry</p>
+<p>添加一个交america的组<br>groupadd america</p>
+<p>将jerry添加到america组中<br>usermod -g america jerry</p>
+<p>将tomcat用户从root组和sys组删除<br>gpasswd -d tomcat root<br>gpasswd -d tomcat sys</p>
+<p>将america组名修改为am<br>groupmod -n am america</p>
+<h2 id="第五部分-权限"><a href="#第五部分-权限" class="headerlink" title="第五部分 权限"></a>第五部分 权限</h2><p>创建a.txt和b.txt文件，将他们设为其拥有者和所在组可写入，但其他以外的人则不可写入:<br>chmod ug+w,o-w a.txt b.txt</p>
+<p>创建c.txt文件所有人都可以写和执行<br>chmod a=wx c.txt 或chmod 666 c.txt</p>
+<p>将/tnp目录下的所有文件与子目录皆设为任何人可读取<br>chmod -R a+r /tnp</p>
+<p>将/tnp目录下的所有文件与子目录的拥有者设为root，用户拥有组为users<br>chown -R root:users /tnp</p>
+<p>将当前目录下的所有文件与子目录的用户皆设为tnp，组设为users<br>chown -R tnp:users *</p>
+<h2 id="第五部分-文件夹属性"><a href="#第五部分-文件夹属性" class="headerlink" title="第五部分 文件夹属性"></a>第五部分 文件夹属性</h2><p>1.查看文件夹属性<br>ls -ld test</p>
+<p>2.文件夹的rwx<br>–x:可以cd进去<br>r-x:可以cd进去并ls<br>-wx:可以cd进去并touch，rm自己的文件，并且可以vi其他用户的文件<br>-wt:可以cd进去并touch，rm自己的文件</p>
+<p>ls -ld /tmp<br>drwxrwxrwt的权限值是1777(sticky)</p>
+<h2 id="第六部分-常用软件安装"><a href="#第六部分-常用软件安装" class="headerlink" title="第六部分 常用软件安装"></a>第六部分 常用软件安装</h2><p>1.安装JDK<br>    <em>添加执行权限<br>        chmod u+x jdk-6u45-linux-i586.bin
+    </em>解压<br>        ./jdk-6u45-linux-i586.bin<br>    <em>在/usr目录下创建java目录<br>        mkdir /usr/java
+    </em>将/soft目录下的解压的jdk1.6.0_45剪切到/usr/java目录下<br>        mv jdk1.6.0_45/ /usr/java/<br>    <em>添加环境变量<br>        vim /etc/profile
+        </em>在/etc/profile文件最后添加<br>            export JAVA_HOME=/usr/java/jdk1.6.0_45<br>            export CLASSPATH=$JAVA_HOME/lib<br>            export PATH=$PATH:$JAVA_HOME/bin<br>    *更新配置<br>        source /etc/profile</p>
+<p>2.安装tomcat<br>    tar -zxvf /soft/apache-tomcat-7.0.47.tar.gz -C /programs/<br>    cd /programs/apache-tomcat-7.0.47/bin/<br>    ./startup.sh</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/linux基础命令3/" rel="next" title="linux基础命令(3)">
+                <i class="fa fa-chevron-left"></i> linux基础命令(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/15/linux-yum/" rel="prev" title="linux yum源配置">
+                linux yum源配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux基础命令"><span class="nav-number">1.</span> <span class="nav-text">linux基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-基本常用命令"><span class="nav-number">1.1.</span> <span class="nav-text">第一部分 基本常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-文件操作命令"><span class="nav-number">1.2.</span> <span class="nav-text">第二部分 文件操作命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-系统命令"><span class="nav-number">1.3.</span> <span class="nav-text">第三部分 系统命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-用户和组"><span class="nav-number">1.4.</span> <span class="nav-text">第四部分 用户和组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-权限"><span class="nav-number">1.5.</span> <span class="nav-text">第五部分 权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-文件夹属性"><span class="nav-number">1.6.</span> <span class="nav-text">第五部分 文件夹属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六部分-常用软件安装"><span class="nav-number">1.7.</span> <span class="nav-text">第六部分 常用软件安装</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

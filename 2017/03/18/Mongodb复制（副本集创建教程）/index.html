@@ -1,0 +1,945 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MongoDB," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="127.0.0.1本机启动三个mongodb 配置副本集">
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb复制集创建">
+<meta property="og:url" content="http://yoursite.com/2017/03/18/Mongodb复制（副本集创建教程）/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="127.0.0.1本机启动三个mongodb 配置副本集">
+<meta property="og:updated_time" content="2017-04-08T14:57:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb复制集创建">
+<meta name="twitter:description" content="127.0.0.1本机启动三个mongodb 配置副本集">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/18/Mongodb复制（副本集创建教程）/"/>
+
+
+
+
+
+  <title> Mongodb复制集创建 | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/Mongodb复制（副本集创建教程）/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mongodb复制集创建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-18T22:00:57+08:00">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
+                    <span itemprop="name">MongoDB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/18/Mongodb复制（副本集创建教程）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/18/Mongodb复制（副本集创建教程）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2017/03/18/Mongodb复制（副本集创建教程）/" class="leancloud_visitors" data-flag-title="Mongodb复制集创建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  127.0.0.1本机启动三个mongodb 配置副本集
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>127.0.0.1本机启动三个mongodb 配置副本集：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">./mongod --dbpath=/data/mongo/db --fork --port 11111 --logpath=/data/mongo/logs/work.log --logappend --replSet qsbtest</div><div class="line"></div><div class="line">./mongod --dbpath=/data/mongo/db2 --fork --port 22222 --logpath=/data/mongo/logs2/work.log --logappend --replSet qsbtest</div><div class="line"></div><div class="line">./mongod --dbpath=/data/mongo/db3 --fork --port 33333 --logpath=/data/mongo/logs3/work.log --logappend --replSet qsbtest</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">&gt; config_replica=&#123;&quot;_id&quot;:&quot;qsbtest&quot;,&quot;members&quot;:[</div><div class="line">...  &#123;&quot;_id&quot;:1,</div><div class="line">...  &quot;host&quot;:&quot;127.0.0.1:11111&quot;,</div><div class="line">...  &quot;priority&quot;:1</div><div class="line">...  &#125;,</div><div class="line">...  &#123;&quot;_id&quot;:2,</div><div class="line">...  &quot;host&quot;:&quot;127.0.0.1:22222&quot;,</div><div class="line">...  &quot;priority&quot;:1</div><div class="line">...  &#125;,</div><div class="line">...  &#123;&quot;_id&quot;:3,</div><div class="line">...  &quot;host&quot;:&quot;127.0.0.1:33333&quot;,</div><div class="line">...  &quot;priority&quot;:1</div><div class="line">...  &#125;</div><div class="line">...  ]&#125;</div><div class="line"></div><div class="line">&#123;</div><div class="line">     &quot;_id&quot; : &quot;qsbtest&quot;,</div><div class="line">     &quot;members&quot; : [</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 1,</div><div class="line">               &quot;host&quot; : &quot;127.0.0.1:11111&quot;,</div><div class="line">               &quot;priority&quot; : 1</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 2,</div><div class="line">               &quot;host&quot; : &quot;127.0.0.1:22222&quot;,</div><div class="line">               &quot;priority&quot; : 1</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 3,</div><div class="line">               &quot;host&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">               &quot;priority&quot; : 1</div><div class="line">          &#125;</div><div class="line">     ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt; rs.initiate(config_replica)</div><div class="line">&#123;</div><div class="line">     &quot;ok&quot; : 0,</div><div class="line">     &quot;errmsg&quot; : &quot;&apos;127.0.0.1:22222&apos; has data already, cannot initiate set.&quot;,</div><div class="line">     &quot;code&quot; : 110,</div><div class="line">     &quot;codeName&quot; : &quot;CannotInitializeNodeWithData&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>登入任意一台机器的MongoDB执行：因为是全新的副本集所以可以任意进入一台执行；要是有一台有数据，则需要在有数据上执行；要多台有数据则不能初始化。</p>
+<blockquote>
+<p>“_id”: 副本集的名称</p>
+<p>“members”: 副本集的服务器列表</p>
+<p>“_id”: 服务器的唯一ID</p>
+<p>“host”: 服务器主机</p>
+<p>“priority”: 是优先级，默认为1，优先级0为被动节点，不能成为活跃节点。优先级不位0则按照有大到小选出活跃节点。</p>
+<p>“arbiterOnly”: 仲裁节点，只参与投票，不接收数据，也不能成为活跃节点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">&gt; rs.initiate(config_replica)</div><div class="line">&#123; &quot;ok&quot; : 1 &#125;</div><div class="line">qsbtest:OTHER&gt;</div><div class="line">qsbtest:SECONDARY&gt;</div><div class="line">qsbtest:SECONDARY&gt; rs.status()</div><div class="line">&#123;</div><div class="line">     &quot;set&quot; : &quot;qsbtest&quot;,</div><div class="line">     &quot;date&quot; : ISODate(&quot;2017-03-27T02:31:35.644Z&quot;),</div><div class="line">     &quot;myState&quot; : 1,</div><div class="line">     &quot;term&quot; : NumberLong(1),</div><div class="line">     &quot;heartbeatIntervalMillis&quot; : NumberLong(2000),</div><div class="line">     &quot;optimes&quot; : &#123;</div><div class="line">          &quot;lastCommittedOpTime&quot; : &#123;</div><div class="line">               &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">               &quot;t&quot; : NumberLong(1)</div><div class="line">          &#125;,</div><div class="line">          &quot;appliedOpTime&quot; : &#123;</div><div class="line">               &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">               &quot;t&quot; : NumberLong(1)</div><div class="line">          &#125;,</div><div class="line">          &quot;durableOpTime&quot; : &#123;</div><div class="line">               &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">               &quot;t&quot; : NumberLong(1)</div><div class="line">          &#125;</div><div class="line">     &#125;,</div><div class="line">     &quot;members&quot; : [</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 1,</div><div class="line">               &quot;name&quot; : &quot;127.0.0.1:11111&quot;,</div><div class="line">               &quot;health&quot; : 1,</div><div class="line">               &quot;state&quot; : 2,</div><div class="line">               &quot;stateStr&quot; : &quot;SECONDARY&quot;,</div><div class="line">               &quot;uptime&quot; : 28,</div><div class="line">               &quot;optime&quot; : &#123;</div><div class="line">                    &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">                    &quot;t&quot; : NumberLong(1)</div><div class="line">               &#125;,</div><div class="line">               &quot;optimeDurable&quot; : &#123;</div><div class="line">                    &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">                    &quot;t&quot; : NumberLong(1)</div><div class="line">               &#125;,</div><div class="line">               &quot;optimeDate&quot; : ISODate(&quot;2017-03-27T02:31:27Z&quot;),</div><div class="line">               &quot;optimeDurableDate&quot; : ISODate(&quot;2017-03-27T02:31:27Z&quot;),</div><div class="line">               &quot;lastHeartbeat&quot; : ISODate(&quot;2017-03-27T02:31:35.054Z&quot;),</div><div class="line">               &quot;lastHeartbeatRecv&quot; : ISODate(&quot;2017-03-27T02:31:34.277Z&quot;),</div><div class="line">               &quot;pingMs&quot; : NumberLong(0),</div><div class="line">               &quot;syncingTo&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">               &quot;configVersion&quot; : 1</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 2,</div><div class="line">               &quot;name&quot; : &quot;127.0.0.1:22222&quot;,</div><div class="line">               &quot;health&quot; : 1,</div><div class="line">               &quot;state&quot; : 2,</div><div class="line">               &quot;stateStr&quot; : &quot;SECONDARY&quot;,</div><div class="line">               &quot;uptime&quot; : 28,</div><div class="line">               &quot;optime&quot; : &#123;</div><div class="line">                    &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">                    &quot;t&quot; : NumberLong(1)</div><div class="line">               &#125;,</div><div class="line">               &quot;optimeDurable&quot; : &#123;</div><div class="line">                    &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">                    &quot;t&quot; : NumberLong(1)</div><div class="line">               &#125;,</div><div class="line">               &quot;optimeDate&quot; : ISODate(&quot;2017-03-27T02:31:27Z&quot;),</div><div class="line">               &quot;optimeDurableDate&quot; : ISODate(&quot;2017-03-27T02:31:27Z&quot;),</div><div class="line">               &quot;lastHeartbeat&quot; : ISODate(&quot;2017-03-27T02:31:35.054Z&quot;),</div><div class="line">               &quot;lastHeartbeatRecv&quot; : ISODate(&quot;2017-03-27T02:31:34.091Z&quot;),</div><div class="line">               &quot;pingMs&quot; : NumberLong(0),</div><div class="line">               &quot;syncingTo&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">               &quot;configVersion&quot; : 1</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">               &quot;_id&quot; : 3,</div><div class="line">               &quot;name&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">               &quot;health&quot; : 1,</div><div class="line">               &quot;state&quot; : 1,</div><div class="line">               &quot;stateStr&quot; : &quot;PRIMARY&quot;,</div><div class="line">               &quot;uptime&quot; : 1170,</div><div class="line">               &quot;optime&quot; : &#123;</div><div class="line">                    &quot;ts&quot; : Timestamp(1490581887, 1),</div><div class="line">                    &quot;t&quot; : NumberLong(1)</div><div class="line">               &#125;,</div><div class="line">               &quot;optimeDate&quot; : ISODate(&quot;2017-03-27T02:31:27Z&quot;),</div><div class="line">               &quot;infoMessage&quot; : &quot;could not find member to sync from&quot;,</div><div class="line">               &quot;electionTime&quot; : Timestamp(1490581877, 1),</div><div class="line">               &quot;electionDate&quot; : ISODate(&quot;2017-03-27T02:31:17Z&quot;),</div><div class="line">               &quot;configVersion&quot; : 1,</div><div class="line">               &quot;self&quot; : true</div><div class="line">          &#125;</div><div class="line">     ],</div><div class="line">     &quot;ok&quot; : 1</div><div class="line">&#125;</div><div class="line">qsbtest:PRIMARY&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="副本集维护"><a href="#副本集维护" class="headerlink" title="副本集维护"></a>副本集维护</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line">1.添加节点到当前副本集：</div><div class="line">rs.add(&quot;192.168.200.25:27017&quot;)</div><div class="line">2.将某个节点移除副本集：</div><div class="line">rs.remove(&quot;192.168.200.25:27017”)</div><div class="line">3.查看复制情况：</div><div class="line">qsbtest:PRIMARY&gt; db.printSlaveReplicationInfo()</div><div class="line">source: 127.0.0.1:11111</div><div class="line">     syncedTo: Mon Mar 27 2017 10:36:47 GMT+0800 (CST)</div><div class="line">     0 secs (0 hrs) behind the primary</div><div class="line">source: 127.0.0.1:22222</div><div class="line">     syncedTo: Mon Mar 27 2017 10:36:47 GMT+0800 (CST)</div><div class="line">     0 secs (0 hrs) behind the primary</div><div class="line">source：从库的ip和端口。</div><div class="line"></div><div class="line">syncedTo：目前的同步情况，以及最后一次同步的时间。</div><div class="line"></div><div class="line">从上面可以看出，在数据库内容不变的情况下他是不同步的，数据库变动就会马上同步。</div><div class="line"></div><div class="line">4.查看副本集状态：</div><div class="line">rs.status()</div><div class="line">health：1   //1表明状态是正常，0表明异常</div><div class="line"></div><div class="line">state:1     // 1表明是primary，2表明是slave，即做备份的机器</div><div class="line"></div><div class="line">qsbtest:PRIMARY&gt; rs.isMaster()</div><div class="line">&#123;</div><div class="line">     &quot;hosts&quot; : [</div><div class="line">          &quot;127.0.0.1:11111&quot;,</div><div class="line">          &quot;127.0.0.1:22222&quot;,</div><div class="line">          &quot;127.0.0.1:33333&quot;</div><div class="line">     ],</div><div class="line">     &quot;setName&quot; : &quot;qsbtest&quot;,</div><div class="line">     &quot;setVersion&quot; : 1,</div><div class="line">     &quot;ismaster&quot; : true,</div><div class="line">     &quot;secondary&quot; : false,</div><div class="line">     &quot;primary&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">     &quot;me&quot; : &quot;127.0.0.1:33333&quot;,</div><div class="line">     &quot;electionId&quot; : ObjectId(&quot;7fffffff0000000000000001&quot;),</div><div class="line">     &quot;lastWrite&quot; : &#123;</div><div class="line">          &quot;opTime&quot; : &#123;</div><div class="line">               &quot;ts&quot; : Timestamp(1490582127, 1),</div><div class="line">               &quot;t&quot; : NumberLong(1)</div><div class="line">          &#125;,</div><div class="line">          &quot;lastWriteDate&quot; : ISODate(&quot;2017-03-27T02:35:27Z&quot;)</div><div class="line">     &#125;,</div><div class="line">     &quot;maxBsonObjectSize&quot; : 16777216,</div><div class="line">     &quot;maxMessageSizeBytes&quot; : 48000000,</div><div class="line">     &quot;maxWriteBatchSize&quot; : 1000,</div><div class="line">     &quot;localTime&quot; : ISODate(&quot;2017-03-27T02:35:35.631Z&quot;),</div><div class="line">     &quot;maxWireVersion&quot; : 5,</div><div class="line">     &quot;minWireVersion&quot; : 0,</div><div class="line">     &quot;readOnly&quot; : false,</div><div class="line">     &quot;ok&quot; : 1</div><div class="line">&#125;</div><div class="line"></div><div class="line">5.副本集节点参数修改：</div><div class="line">mmm:PRIMARY&gt; cfg=rs.conf() #</div><div class="line">&#123;</div><div class="line">    &quot;_id&quot; : &quot;mmm&quot;,</div><div class="line">    &quot;version&quot; : 4,</div><div class="line">    &quot;members&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_id&quot; : 1,</div><div class="line">            &quot;host&quot; : &quot;192.168.200.252:27017&quot;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            &quot;_id&quot; : 2,</div><div class="line">            &quot;host&quot; : &quot;192.168.200.245:27017&quot;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            &quot;_id&quot; : 3,</div><div class="line">            &quot;host&quot; : &quot;192.168.200.25:27017&quot;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div><div class="line">mmm:PRIMARY&gt; cfg.members[1].priority=2  #修改priority</div><div class="line">2</div><div class="line">mmm:PRIMARY&gt; rs.reconfig(cfg) #重新加载配置文件，强制了副本集进行一次选举，优先级高的成为Primary。在这之间整个集群的所有节点都是secondary</div><div class="line">6:副本集的配置</div><div class="line"></div><div class="line">rs.conf()/rs.config()</div><div class="line"></div><div class="line"></div><div class="line">MongoDB数据恢复</div><div class="line"></div><div class="line">mongodb使用 mongorestore 命令来恢复备份的数据。</div><div class="line"></div><div class="line">语法</div><div class="line"></div><div class="line">mongorestore命令脚本语法如下：</div><div class="line"></div><div class="line">&gt;mongorestore -h &lt;hostname&gt;&lt;:port&gt; -d dbname &lt;path&gt;</div><div class="line">* --host &lt;:port&gt;, -h &lt;:port&gt;：</div><div class="line">MongoDB所在服务器地址，默认为： localhost:27017</div><div class="line"></div><div class="line">* --db , -d ：</div><div class="line">需要恢复的数据库实例，例如：test，当然这个名称也可以和备份时候的不一样，比如test2</div><div class="line"></div><div class="line">* --drop：</div><div class="line">恢复的时候，先删除当前数据，然后恢复备份的数据。就是说，恢复后，备份后添加修改的数据都会被删除，慎用哦！</div><div class="line"></div><div class="line">* &lt;path&gt;：</div><div class="line">mongorestore 最后的一个参数，设置备份数据所在位置，例如：c:\data\dump\test。</div><div class="line"></div><div class="line">你不能同时指定 &lt;path&gt; 和 --dir 选项，--dir也可以设置备份目录。</div><div class="line"></div><div class="line">* --dir：</div><div class="line">指定备份的目录</div><div class="line"></div><div class="line">你不能同时指定 &lt;path&gt; 和 --dir 选项。</div></pre></td></tr></table></figure>
+<h3 id="MongoDB数据备份"><a href="#MongoDB数据备份" class="headerlink" title="MongoDB数据备份"></a>MongoDB数据备份</h3><blockquote>
+<p>在Mongodb中我们使用mongodump命令来备份MongoDB数据。该命令可以导出所有数据到指定目录中。</p>
+<p>mongodump命令可以通过参数指定导出的数据量级转存的服务器。</p>
+</blockquote>
+<p>语法</p>
+<p>mongodump命令脚本语法如下：</p>
+<blockquote>
+<p>mongodump -h dbhost -d dbname -o dbdirectory</p>
+<ul>
+<li>-h：<br>MongDB所在服务器地址，例如：127.0.0.1，当然也可以指定端口号：127.0.0.1:27017</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>-d：<br>需要备份的数据库实例，例如：test</p>
+</li>
+<li><p>-o：<br>备份的数据存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个test目录，这个目录里面存放该数据库实例的备份数据。</p>
+</li>
+</ul>
+<p>mongodb参数列表<br>Mongodb启动命令mongod参数说明</p>
+<p>mongod的主要参数有：</p>
+<p> 基本配置</p>
+<hr>
+<pre><code>--quiet    # 安静输出
+--port arg    # 指定服务端口号，默认端口27017
+--bind_ip arg    # 绑定服务IP，若绑定127.0.0.1，则只能本机访问，不指定默认本地所有IP
+--logpath arg    # 指定MongoDB日志文件，注意是指定文件不是目录
+--logappend    # 使用追加的方式写日志
+--pidfilepath arg    # PID File 的完整路径，如果没有设置，则没有PID文件
+--keyFile arg    # 集群的私钥的完整路径，只对于Replica Set 架构有效
+--unixSocketPrefix arg    # UNIX域套接字替代目录,(默认为 /tmp)
+--fork    # 以守护进程的方式运行MongoDB，创建服务器进程
+--auth    # 启用验证
+--cpu    # 定期显示CPU的CPU利用率和iowait
+--dbpath arg    # 指定数据库路径
+--diaglog arg    # diaglog选项 0=off 1=W 2=R 3=both 7=W+some reads
+--directoryperdb    # 设置每个数据库将被保存在一个单独的目录
+--journal    # 启用日志选项，MongoDB的数据操作将会写入到journal文件夹的文件里
+--journalOptions arg    # 启用日志诊断选项
+--ipv6    # 启用IPv6选项
+--jsonp    # 允许JSONP形式通过HTTP访问（有安全影响）
+--maxConns arg    # 最大同时连接数 默认2000
+--noauth    # 不启用验证
+--nohttpinterface    # 关闭http接口，默认关闭27018端口访问
+--noprealloc    # 禁用数据文件预分配(往往影响性能)
+--noscripting    # 禁用脚本引擎
+--notablescan    # 不允许表扫描
+--nounixsocket    # 禁用Unix套接字监听
+--nssize arg (=16)    # 设置信数据库.ns文件大小(MB)
+--objcheck    # 在收到客户数据,检查的有效性，
+--profile arg    # 档案参数 0=off 1=slow, 2=all
+--quota    # 限制每个数据库的文件数，设置默认为8
+--quotaFiles arg    # number of files allower per db, requires --quota
+--rest    # 开启简单的rest API
+--repair    # 修复所有数据库run repair on all dbs
+--repairpath arg    # 修复库生成的文件的目录,默认为目录名称dbpath
+--slowms arg (=100)    # value of slow for profile and console log
+--smallfiles    # 使用较小的默认文件
+--syncdelay arg (=60)    # 数据写入磁盘的时间秒数(0=never,不推荐)
+--sysinfo    # 打印一些诊断系统信息
+--upgrade    # 如果需要升级数据库
+ * Replicaton 参数
+</code></pre><hr>
+<pre><code>--fastsync    # 从一个dbpath里启用从库复制服务，该dbpath的数据库是主库的快照，可用于快速启用同步
+--autoresync    # 如果从库与主库同步数据差得多，自动重新同步，
+--oplogSize arg    # 设置oplog的大小(MB)
+</code></pre><ul>
+<li>主/从参数</li>
+</ul>
+<hr>
+<pre><code>--master    # 主库模式
+--slave    # 从库模式
+--source arg    # 从库 端口号
+--only arg    # 指定单一的数据库复制
+--slavedelay arg    # 设置从库同步主库的延迟时间
+</code></pre><ul>
+<li>Replica set(副本集)选项：</li>
+</ul>
+<hr>
+<pre><code>--replSet arg    # 设置副本集名称
+</code></pre><ul>
+<li>Sharding(分片)选项</li>
+</ul>
+<hr>
+<pre><code>--configsvr    # 声明这是一个集群的config服务,默认端口27019，默认目录/data/configdb
+--shardsvr    # 声明这是一个集群的分片,默认端口27018
+--noMoveParanoia    # 关闭偏执为moveChunk数据保存
+</code></pre><p><strong>上述参数都可以写入 mongod.conf 配置文档里例如：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">dbpath = /data/mongodb</div><div class="line"></div><div class="line">logpath = /data/mongodb/mongodb.log</div><div class="line"></div><div class="line">logappend = true</div><div class="line"></div><div class="line">port = 27017</div><div class="line"></div><div class="line">fork = true</div><div class="line"></div><div class="line">auth = true</div></pre></td></tr></table></figure>
+<p>e.g：./mongod -shardsvr -replSet shard1 -port 16161 -dbpath /data/mongodb/data/shard1a -oplogSize 100 -logpath /data/mongodb/logs/shard1a.log -logappend -fork -rest</p>
+<p><a href="http://www.cnblogs.com/ningvsban/p/3394103.html" target="_blank" rel="external">http://www.cnblogs.com/ningvsban/p/3394103.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/22/SQ3R阅读方法与技巧/" rel="next" title="SQ3R阅读方法">
+                <i class="fa fa-chevron-left"></i> SQ3R阅读方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/18/Nginx配置非典型应用/" rel="prev" title="Nginx的非典型应用">
+                Nginx的非典型应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#副本集维护"><span class="nav-number">1.</span> <span class="nav-text">副本集维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB数据备份"><span class="nav-number">2.</span> <span class="nav-text">MongoDB数据备份</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

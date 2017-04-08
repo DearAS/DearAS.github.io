@@ -1,0 +1,866 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="google analytics," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="面向前端工程师的GA代码部署详解">
+<meta name="keywords" content="google analytics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解">
+<meta property="og:url" content="http://yoursite.com/2017/01/12/ga1/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="面向前端工程师的GA代码部署详解">
+<meta property="og:image" content="http://yoursite.com/image/ga/1.png">
+<meta property="og:image" content="http://yoursite.com/image/ga/2.png">
+<meta property="og:image" content="http://yoursite.com/image/ga/3.png">
+<meta property="og:image" content="http://yoursite.com/image/ga/4.png">
+<meta property="og:image" content="http://yoursite.com/image/ga/5.png">
+<meta property="og:updated_time" content="2017-04-08T15:58:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解">
+<meta name="twitter:description" content="面向前端工程师的GA代码部署详解">
+<meta name="twitter:image" content="http://yoursite.com/image/ga/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/12/ga1/"/>
+
+
+
+
+
+  <title> 【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解 | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/ga1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-12T10:07:34+08:00">
+                2017-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/google-analytics/" itemprop="url" rel="index">
+                    <span itemprop="name">google analytics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/12/ga1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/12/ga1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2017/01/12/ga1/" class="leancloud_visitors" data-flag-title="【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  面向前端工程师的GA代码部署详解
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="【GA】Google-Analytics-电商网站GA代码部署-增强电子商务详解"><a href="#【GA】Google-Analytics-电商网站GA代码部署-增强电子商务详解" class="headerlink" title="【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解"></a>【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解</h1><p>前段时间因为工作上的关系有幸接触到了谷歌分析(google analytics)，虽然官网文档介绍的非常详细，但是我在代码部署的过程中还是遇到了不少问题，国内对GA代码部署的文章又非常的少，所以今天把代码部署从头到尾细细道来，希望网站开发人员在部署GA代码的时候能更加顺利一点。</p>
+<h2 id="1-基础部署"><a href="#1-基础部署" class="headerlink" title="1.基础部署"></a>1.基础部署</h2><p>首先，登录<a href="http://www.google.cn/analytics/" target="_blank" rel="external">Google Analytics</a>必须有一个Gmail账号。所以国内的同学，你懂得。搞个VPN翻墙或者用google浏览器安装[谷歌访问助手]插件注册一个吧。<br>谷歌访问助手下载：<a href="http://pan.baidu.com/s/1nvNjmJJ" target="_blank" rel="external">http://pan.baidu.com/s/1nvNjmJJ</a><br>注册完成之后登录GA创建一个GA账户以获取一个追踪id，具体操作如下：<br><img src="/image/ga/1.png" alt="GA注册账户"><br>GA账户注册成功之后点击管理菜单，查看自己的追踪代码：<br><img src="/image/ga/2.png" alt="GA获取追踪id"><br>接下来直接根据提示把这些代码加入到网站页面中即可。建议把追踪代码加入到公共js中，在有需要用到GA的页面引入公共js。<br>访问网页会发现报告中的网页浏览量会加1。<br>基本语法请参考<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/pages" target="_blank" rel="external">GA官方文档</a></p>
+<h2 id="2-高级功能的实现"><a href="#2-高级功能的实现" class="headerlink" title="2.高级功能的实现"></a>2.高级功能的实现</h2><p>GA的扩展性很强，有很多方便我们的使用的功能。比如：自定义维度，自定义指标，目标，user-id跟踪等。<br>如果要统计该网站注册成功的用户的数量，可以使用目标来实现。目标在GA管理可以进行添加，在目标说明可以选择目标网页或者事件，这个可以根据需要进行确定。</p>
+<blockquote>
+<p>比如我在GA中设置的目标说明为事件，设置事件的类型为Register_Success。这就是说当网站向GA中发送这个类型的事件，那么目标统计就会+1.<br>代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ga(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'Register_Success'</span>, <span class="string">'Sign Up'</span>, RegisterName);</div></pre></td></tr></table></figure></p>
+<p>如果要统计用户付款时候所选择的付款方式就可以使用自定义维度来实现。自定义维度也是在管理中进行添加，维度的名称是GA报告中显示的名称，维度的索引是网站代码中需要向GA发送数据的时候要用到。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(payMethod == <span class="string">'wechat_pay'</span>)&#123;</div><div class="line">    ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>, &#123;</div><div class="line">        <span class="string">'dimension1'</span>:  <span class="string">'微信支付'</span>   <span class="comment">//dimension1 这个1是自定义维度的索引</span></div><div class="line">    &#125;);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>, &#123;</div><div class="line">        <span class="string">'dimension1'</span>:  <span class="string">'支付宝支付'</span></div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>这时候就已经向GA中成功发送了所以为1的自定义维度了。但是报告中并没有地方有展示的自定义维度的报告。所以我们就可以在自定义菜单中添加一个自定义报告，在自定义中找到自己的自定义维度，其它配置看自己需要。</p>
+<h2 id="接下来部署增强型电子商务："><a href="#接下来部署增强型电子商务：" class="headerlink" title="接下来部署增强型电子商务："></a>接下来部署增强型电子商务：</h2><p><strong>部署增强型电子商务首先需要在GA管理中开启增强电子商务功能。</strong><br>ps:本地环境 angular.js<br>添加增强电子商务插件,在公共js中加入代码： <code>ga(&#39;require&#39;, &#39;ec&#39;);</code></p>
+<h3 id="1-产品列表页面所展示的产品："><a href="#1-产品列表页面所展示的产品：" class="headerlink" title="1.产品列表页面所展示的产品："></a>1.产品列表页面所展示的产品：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">ga(<span class="string">'set'</span>, <span class="string">'&amp;cu'</span>, <span class="string">'CNY'</span>);              <span class="comment">// 本地货币 CNY 人民币</span></div><div class="line">foods.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">data, index, array</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> impression = &#123;</div><div class="line">        <span class="string">'name'</span>: data.itemName,               <span class="comment">// 产品的名称</span></div><div class="line">        <span class="string">'id'</span>: data.itemId,                  <span class="comment">// 产品id</span></div><div class="line">        <span class="string">'price'</span>: data.itemPrice,            <span class="comment">// 产品单价</span></div><div class="line">        <span class="string">'brand'</span>: restName,                  <span class="comment">// 品牌</span></div><div class="line">        <span class="string">'category'</span>: categoryName,           <span class="comment">// 分类</span></div><div class="line">        <span class="string">'list'</span>: <span class="string">'xxx Products'</span>,         <span class="comment">// 所属的list</span></div><div class="line">        <span class="string">'position'</span>: index               <span class="comment">// 产品位置</span></div><div class="line">    &#125;;</div><div class="line">    ga(<span class="string">'ec:addImpression'</span>,impression);      <span class="comment">//注意：一个产品发送一次ec:addImpression，一个页面上有100个产品就要发送ec:addImpression 100次。</span></div><div class="line">&#125;);</div><div class="line">ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"ga衡量商品展示"</span>);</div></pre></td></tr></table></figure>
+<h3 id="2-衡量产品的点击"><a href="#2-衡量产品的点击" class="headerlink" title="2.衡量产品的点击"></a>2.衡量产品的点击</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//ec:addProduct中添加被点击的商品的具体信息</span></div><div class="line"> ga(<span class="string">'ec:addProduct'</span>, &#123;</div><div class="line">    <span class="string">'id'</span>: $scope.foodData.data.itemId,</div><div class="line">    <span class="string">'name'</span>:$scope.foodData.data.itemName,</div><div class="line">    <span class="string">'price'</span>:$scope.foodData.data.itemPrice,</div><div class="line">    <span class="string">'brand'</span>:$scope.foodData.data.branchId,</div><div class="line">    <span class="string">'category'</span>: $scope.foodData.data.categoryName,</div><div class="line">    <span class="string">'variant'</span>:$scope.foodData.data.desc</div><div class="line">&#125;);</div><div class="line"><span class="comment">//ec:setAction click表示有产品被点击</span></div><div class="line">ga(<span class="string">'ec:setAction'</span>, <span class="string">'click'</span>, &#123;<span class="attr">list</span>: <span class="string">'xxx Products'</span>&#125;);</div><div class="line"><span class="comment">// Send click with an event, then send user to product page.</span></div><div class="line">ga(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'UX'</span>, <span class="string">'click'</span>, <span class="string">'Results'</span>, &#123;</div><div class="line">    <span class="attr">hitCallback</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"被点击的商品"</span>+$scope.foodData.data.itemName);</div></pre></td></tr></table></figure>
+<p>setAction操作类型：<br><img src="/image/ga/3.png" alt="GA注册账户"></p>
+<h3 id="3-加入购物车"><a href="#3-加入购物车" class="headerlink" title="3.加入购物车"></a>3.加入购物车</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ga(<span class="string">'ec:addProduct'</span>, &#123;</div><div class="line">            <span class="string">'name'</span>: $scope.foodData.data.itemName,</div><div class="line">            <span class="string">'id'</span>: $scope.foodData.data.itemId,</div><div class="line">            <span class="string">'price'</span>: $scope.foodData.data.itemPrice,</div><div class="line">            <span class="string">'brand'</span>: $scope.foodData.data.branchId,</div><div class="line">            <span class="string">'category'</span>: $scope.foodData.data.categoryName,</div><div class="line">            <span class="string">'quantity'</span>: <span class="number">1</span></div><div class="line">        &#125;);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"被加入购物车的商品"</span>+$scope.foodData.data.itemName);</div><div class="line">        ga(<span class="string">'ec:setAction'</span>, <span class="string">'add'</span>);</div><div class="line">        ga(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'UX'</span>, <span class="string">'click'</span>, <span class="string">'add to cart'</span>);     <span class="comment">// Send data using an event.</span></div></pre></td></tr></table></figure>
+<h3 id="4-移除购物车"><a href="#4-移除购物车" class="headerlink" title="4.移除购物车"></a>4.移除购物车</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> products=[];</div><div class="line">  foods.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">data,index,array</span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> product = createProduct(data,data.itemCategory,restName);</div><div class="line">      <span class="built_in">console</span>.log(product);</div><div class="line">      ga(<span class="string">'ec:addProduct'</span>, product);</div><div class="line">  &#125;);</div><div class="line">  ga(<span class="string">'ec:setAction'</span>, <span class="string">'remove'</span>);</div><div class="line">  ga(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'UX'</span>, <span class="string">'click'</span>, <span class="string">'remove from cart'</span>);     <span class="comment">// Send data using an event.</span></div></pre></td></tr></table></figure>
+<h3 id="5-点击下单按钮-开始支付流程"><a href="#5-点击下单按钮-开始支付流程" class="headerlink" title="5.点击下单按钮 开始支付流程"></a>5.点击下单按钮 开始支付流程</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;$scope.cart.foods.length;i++)&#123;</div><div class="line">       <span class="keyword">var</span> product=  &#123;</div><div class="line">           <span class="string">'name'</span>: <span class="string">''</span>,</div><div class="line">           <span class="string">'id'</span>: <span class="string">''</span>,</div><div class="line">           <span class="string">'price'</span>: <span class="string">''</span>,</div><div class="line">           <span class="string">'brand'</span>: $scope.cart.restName,</div><div class="line">           <span class="string">'category'</span>: <span class="string">'Apparel'</span>,</div><div class="line">           <span class="string">'variant'</span>: <span class="string">'Black'</span>,</div><div class="line">           <span class="string">'quantity'</span>: <span class="string">''</span></div><div class="line">       &#125;;</div><div class="line">       product.name=$scope.cart.foods[i].itemName;</div><div class="line">       <span class="built_in">console</span>.log($scope.cart.foods[i].itemName);</div><div class="line">       product.id=$scope.cart.foods[i].itemId;</div><div class="line">       product.price=$scope.cart.foods[i].itemPrice;</div><div class="line">       product.quantity=$scope.cart.foods[i].count;</div><div class="line">       <span class="comment">/*products[i] = product;*/</span></div><div class="line">       ga(<span class="string">'ec:addProduct'</span>, product);</div><div class="line"></div><div class="line">       <span class="comment">// products.push(product);</span></div><div class="line">       <span class="built_in">console</span>.log(product);</div><div class="line">   &#125;</div><div class="line">   ga(<span class="string">'ec:setAction'</span>,<span class="string">'checkout'</span>, &#123;</div><div class="line">       <span class="string">'step'</span>: <span class="number">1</span>,            <span class="comment">// A value of 1 indicates this action is first checkout step.</span></div><div class="line">       <span class="string">'option'</span>: <span class="string">'null'</span>      <span class="comment">// Used to specify additional info about a checkout stage, e.g. payment method.</span></div><div class="line">   &#125;);</div><div class="line">   ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);   <span class="comment">// Pageview for payment.html</span></div></pre></td></tr></table></figure>
+<h3 id="6-支付成功，页面回调"><a href="#6-支付成功，页面回调" class="headerlink" title="6.支付成功，页面回调"></a>6.支付成功，页面回调</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.向GA发送已成交的的商品</span></div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;$scope.cart.foods.length;i++)&#123;</div><div class="line">        <span class="keyword">var</span> product=  &#123;</div><div class="line">            <span class="string">'name'</span>: <span class="string">''</span>,</div><div class="line">            <span class="string">'id'</span>: <span class="string">''</span>,</div><div class="line">            <span class="string">'price'</span>: <span class="string">''</span>,</div><div class="line">            <span class="string">'brand'</span>: $scope.cart.restName,</div><div class="line">            <span class="string">'category'</span>: <span class="string">'Apparel'</span>,</div><div class="line">            <span class="string">'variant'</span>: <span class="string">'Black'</span>,</div><div class="line">            <span class="string">'quantity'</span>: <span class="string">''</span></div><div class="line">        &#125;;</div><div class="line">        product.name=$scope.cart.foods[i].itemName;</div><div class="line">        <span class="built_in">console</span>.log($scope.cart.foods[i].itemName);</div><div class="line">        product.id=$scope.cart.foods[i].itemId;</div><div class="line">        product.price=$scope.cart.foods[i].itemPrice;</div><div class="line">        product.quantity=$scope.cart.foods[i].count;</div><div class="line">        ga(<span class="string">'ec:addProduct'</span>, product);</div><div class="line">        <span class="built_in">console</span>.log(product);</div><div class="line">    &#125;</div><div class="line">    ga(<span class="string">'set'</span>, <span class="string">'&amp;cu'</span>, <span class="string">'CNY'</span>);              <span class="comment">// Set tracker currency to Euros</span></div><div class="line">    <span class="comment">// Transaction level information is provided via an actionFieldObject.</span></div><div class="line">    ga(<span class="string">'ec:setAction'</span>, <span class="string">'purchase'</span>, &#123;</div><div class="line">        <span class="string">'id'</span>: orderNo,                         <span class="comment">// 交易ID. Required for purchases and refunds.</span></div><div class="line">        <span class="string">'affiliation'</span>: <span class="string">'Sherpas website'</span>,</div><div class="line">        <span class="string">'revenue'</span>: $scope.cart.totalPrice,                          <span class="comment">// 收益 (incl. tax and shipping)</span></div><div class="line">        <span class="string">'tax'</span>:<span class="string">'0'</span>,                                                   <span class="comment">// 税</span></div><div class="line">        <span class="string">'shipping'</span>: $scope.cart.deliveryFee,                     <span class="comment">// 运送费</span></div><div class="line">        <span class="string">'coupon'</span>: $scope.couponO</div><div class="line">    &#125;);</div><div class="line">    ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);     <span class="comment">// Send transaction data with initial pageview.</span></div><div class="line">    </div><div class="line">    <span class="comment">//2.支付流程2 支付成功</span></div><div class="line">    ga(<span class="string">'ec:setAction'</span>, <span class="string">'checkout_option'</span>, &#123;</div><div class="line">                <span class="string">'step'</span>: <span class="number">2</span>,</div><div class="line">                <span class="string">'option'</span>: <span class="literal">null</span></div><div class="line">            &#125;);</div><div class="line">    ga(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'Checkout'</span>, <span class="string">'Option'</span>, &#123;</div><div class="line">        <span class="attr">hitCallback</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);     <span class="comment">// Pageview for shipping.html</span></div></pre></td></tr></table></figure>
+<h3 id="7-在GA报告电子商务管理中添加渠道："><a href="#7-在GA报告电子商务管理中添加渠道：" class="headerlink" title="7.在GA报告电子商务管理中添加渠道："></a>7.在GA报告电子商务管理中添加渠道：</h3><p>渠道1：开始下单<br>渠道2：支付成功<br><img src="/image/ga/4.png" alt="GA渠道配置"><br>这样在报告–&gt;转化–&gt;电子商务–&gt;购物分析–&gt;结账行为中就可以显示出这两个渠道了。<br>效果展示：<br><img src="/image/ga/5.png" alt="GA渠道配置"></p>
+<p>这时候增强电子商务的大部分功能就已经实现了。还有一些其它功能又上面类似，就不展示了。<br>在整个代码部署完成之后我们会发现其实这样部署代码是非常麻烦的，并且需要维护起来比较困难，google也是看到了这一点所以后来推出了Tag manager进行代码远程部署。想要尝试用tag manager部署增强电子商务的同学可以参考<a href="https://developers.google.com/tag-manager/enhanced-ecommerce" target="_blank" rel="external">这个</a>，官方已经说的很详细了。<br>我在使用tag manager的时候发现会有数据统计不完全，延迟等现象，不晓得是配置问题还是ga本身的问题，有知道的同学可以在下方留言告诉我一下，谢谢~<br><strong>技术交流qq:576903218</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/google-analytics/" rel="tag"># google analytics</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/28/mongo初体验/" rel="next" title="mongoDB初体验时遇到的一个问题及一些思考">
+                <i class="fa fa-chevron-left"></i> mongoDB初体验时遇到的一个问题及一些思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/06/python核心基础/" rel="prev" title="Python核心基础">
+                Python核心基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#【GA】Google-Analytics-电商网站GA代码部署-增强电子商务详解"><span class="nav-number">1.</span> <span class="nav-text">【GA】Google Analytics 电商网站GA代码部署+增强电子商务详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基础部署"><span class="nav-number">1.1.</span> <span class="nav-text">1.基础部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-高级功能的实现"><span class="nav-number">1.2.</span> <span class="nav-text">2.高级功能的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接下来部署增强型电子商务："><span class="nav-number">1.3.</span> <span class="nav-text">接下来部署增强型电子商务：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-产品列表页面所展示的产品："><span class="nav-number">1.3.1.</span> <span class="nav-text">1.产品列表页面所展示的产品：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-衡量产品的点击"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.衡量产品的点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-加入购物车"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.加入购物车</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-移除购物车"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.移除购物车</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-点击下单按钮-开始支付流程"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.点击下单按钮 开始支付流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-支付成功，页面回调"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.支付成功，页面回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-在GA报告电子商务管理中添加渠道："><span class="nav-number">1.3.7.</span> <span class="nav-text">7.在GA报告电子商务管理中添加渠道：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

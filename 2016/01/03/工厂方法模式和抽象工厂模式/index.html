@@ -1,0 +1,856 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="对工厂方法及抽象工厂模式进行简要分析">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工厂方法模式和抽象工厂模式">
+<meta property="og:url" content="http://yoursite.com/2016/01/03/工厂方法模式和抽象工厂模式/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="对工厂方法及抽象工厂模式进行简要分析">
+<meta property="og:image" content="http://yoursite.com/image/abstractFactory.png">
+<meta property="og:updated_time" content="2017-04-08T15:57:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="工厂方法模式和抽象工厂模式">
+<meta name="twitter:description" content="对工厂方法及抽象工厂模式进行简要分析">
+<meta name="twitter:image" content="http://yoursite.com/image/abstractFactory.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/03/工厂方法模式和抽象工厂模式/"/>
+
+
+
+
+
+  <title> 工厂方法模式和抽象工厂模式 | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/03/工厂方法模式和抽象工厂模式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                工厂方法模式和抽象工厂模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-03T12:16:15+08:00">
+                2016-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/03/工厂方法模式和抽象工厂模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/03/工厂方法模式和抽象工厂模式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2016/01/03/工厂方法模式和抽象工厂模式/" class="leancloud_visitors" data-flag-title="工厂方法模式和抽象工厂模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  对工厂方法及抽象工厂模式进行简要分析
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="分析工厂方法模式和抽象工厂模式"><a href="#分析工厂方法模式和抽象工厂模式" class="headerlink" title="分析工厂方法模式和抽象工厂模式"></a>分析工厂方法模式和抽象工厂模式</h1><p>代码下载见置顶篇文章，下载java23中设计模式的具体实现[下载地址][1]。</p>
+<h2 id="工厂设计模式的作用："><a href="#工厂设计模式的作用：" class="headerlink" title="工厂设计模式的作用："></a>工厂设计模式的作用：</h2><p>起初在我们创建对象的时候都是直接new。这样做有一个弊端，就是当后期有改动 需要跟换一个对象的时候，就需要改动特别大，程序中对该对象进行引用的地方都需要进行改动。因为代码的耦合性太大了，不利于后期维护。</p>
+<p>不仅仅是创建对象时候的是这样，其实方法中也是这样，java的面向对象的封装和分派告诉我们，一个方法中有很长的一段代码，这样的代码其实并不好，不仅代码难看，而且这么长的代码 如果中间有某个东西需要改动，可能就会引起这个方法中的所有代码进行改动，并且代码太长，导致结果不清晰，更改工作也会变得非常困难，一样是耦合性太大。为了避免这种东西，所以把很长的一段代码进行分离，切割成一段一段，这样段与段之间的耦合性减小，更改某一段的代码 并不会影响其他的代码。</p>
+<p>所以成熟的java代码一定要做到的高内聚、低耦合。<br>高内聚：代码与代码之间的联系是非常密切的。<br>低耦合：虽然联系密切，但是代码调用另一段代码的方式可以不直接进行调用（比如通过工厂）。</p>
+<h2 id="工厂模式的发展："><a href="#工厂模式的发展：" class="headerlink" title="工厂模式的发展："></a>工厂模式的发展：</h2><p>为了减小代码之间的耦合性，所以在类中进行A a = new A();的时候一定要考虑一下这里可不可以通过工厂来创建A对象。<br>1、工厂模式是基于接口的，通常为了达到类中A a= new A();同一个方法，后期A对象中的这个方法既要保留，又要对A中的方法进行改造，这时候我们不得不用B对象来处理原先的业务，我们就需要改成B b = new B(); 然后把之前程序中对a的引用都改成b对象。<br>2、如果刚开始我们就有一种面向接口的思想，用接口进行子类方法的调用，比如说A对象实现了接口Father，在类中进行调用的时候我们用接口调用指向实现类，Father father = new A(); 这种方式如果后期需要对具体是实现方法进行改造，又要保留A中的方法实现，这时我们就可以通过创建一个新的B对象，重写接口中的方法，然后把代码改为Father father = new B();其余的东西都不需要改动即可。这样就增强了我们代码的可扩展性。<br>3.但是通过接口调用子类的时候会发现，其实耦合性还是挺高的，我们还是要对源程序中进行更改，需要把A对象变成B对象。需要对java源代码进行重新编译，然后发布。这样就有可能造成代码更新发布的时候出现失误，导致业务逻辑出现问题等。为了解决这个问题，我们引入了工厂。也就是说源程序中的对象创建不是直接进行创建的，而是把创建对象这件事情交给工厂去做。比如Father father = BeanFactory.createBean(“BeanName”);通过调用工厂中的一个方法返回一个接口的实现类。这样，如果我们后期要对对象进行更换，则不需要更改这个类中的任何代码，只需要对工厂中具体的方法实现进行更改即可。<br>    这样改造之后就很好的体现了java的封装思想，代码中不设计到Father的具体子类，减少了错误修改的次数。<br>4.但是我们还会发现一个问题，就是代码和工厂之间还是具有一定耦合性，比如说我后期要换一个工厂来创建对象，还是要更改源程序，不利于维护。这时候就出现了IOC,也是Spring的核心思想，控制反转，意思就是把创建对象的权利交给Spring(工厂) ，可以理解为Spring就是一个大的工厂，集成了Spring就说明整个项目中只有这一个大工厂，业务中所有的对象都可以交给Spring来进行创建。也就省去了后期要更换工厂的忧虑。并且Spring通过注解或者xml配置文件的方式进行对象的依赖注入（DI），使得对象的创建工作也变得非常简单。</p>
+<p><strong>java单继承，多实现。所以一般用接口。</strong></p>
+<h2 id="其中工厂模式中包括几个部分："><a href="#其中工厂模式中包括几个部分：" class="headerlink" title="其中工厂模式中包括几个部分："></a>其中工厂模式中包括几个部分：</h2><p>1.简单工厂(返回值为对象的具体类型)：<br>    就是简单的创建一个工厂类，用于创建具体的对象。<br>2.工厂方法模式(返回值为抽象对象类型)：<br>    工厂中产出来的对象是一个抽象的对象，它可以有很多子类。具体返回哪个子类需要根据逻辑进行判断。（比如一个车辆的牌子有很多，工厂方法就提供逻辑进行判断具体返回哪一个牌子的具体车型。）<br>不论是简单工厂还是工厂方法都有以下两种方式创建工厂：<br>    1.静态工厂：生产对象的方法为静态方法。可以通过类名直接进行调用。Factory.createBean();<br>    2.普通工厂：生产对象的方法不是静态方法。先创建工厂对象，然后通过对象调用方法。<br>        Factory factory = new Factory();<br>        factory.createBean();</p>
+<h3 id="工厂方法模式代码展示："><a href="#工厂方法模式代码展示：" class="headerlink" title="工厂方法模式代码展示："></a>工厂方法模式代码展示：</h3><p><strong>产品接口</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.FactoryPattern.FactoryMethod;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Father</span> </span>&#123;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 业务处理</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">bussinessProcess</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>具体产品1</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.FactoryPattern.FactoryMethod;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">implements</span> <span class="title">Father</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bussinessProcess</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"A的业务处理"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>具体产品2</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.FactoryPattern.FactoryMethod;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">implements</span> <span class="title">Father</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bussinessProcess</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"B的业务处理"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>工厂方法</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.FactoryPattern.FactoryMethod;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">	<span class="comment">//静态工厂</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Father <span class="title">createBean</span><span class="params">(String bussinessName)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(<span class="string">"业务处理名称"</span>.equals(bussinessName))&#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">new</span> A();</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//工厂中没有此对象的创建方式</span></div><div class="line">			System.out.println(<span class="string">"传入的业务名称有误"</span>);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>业务层面通过工厂创建对象</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.designPattern.FactoryPattern.FactoryMethod;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> Father father = BeanFactory.createBean(<span class="string">"业务处理名称"</span>);</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useBussiness</span><span class="params">()</span></span>&#123;</div><div class="line">		father.bussinessProcess();<span class="comment">//具体的业务处理</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是随着业务的发展，产品种类的增多，这时候需要更换一个工厂对象来创建对象。把原先的Factroy factory = new Factory();改成NewFactoru newFactory = new NewFactroy();为了满足这种需求，使代码能够承受这种改变，这时候引入了抽象工厂的模式。意思是不仅仅对具体的产品进行抽象化，对工厂对象也进行抽象，减小代码与工厂之间的耦合性。</p>
+<p>3.抽象工厂：<br>    对工厂进行抽象，一个抽象工厂类可以有多个具体工厂类，用于生产不同的对象。抽象工厂和工厂方法之间的最大区别就是抽象工厂所生产的对象更加复杂了。传统的抽象方法一般只用于生产一种产品(同一个产品接口)，而抽象工厂则是用于生成多种产品，比如生产车的工厂，生产飞机的工厂，就可以用一个抽象工厂来表示。<br>    肯定有人会有疑问，为什么不把他们用两个工厂来生产呢，现实开发时，一般确实是不同的产品用不同的工厂来进行生产，但是如果这两个工厂之间有一定的联系，比如生产汽车和生产飞机的工厂都要早轮胎，这时为了两个工厂通用同一段代码，则把这两个工厂提取出一个抽象工厂。每个具体的工厂类负责创建一类产品的实例。（如：汽车的的牌子有很多，奔驰宝马等。抽象工厂就是用一个具体的工厂来生产每一种类型的车，比如一个越野工厂类，只生产各种牌子的越野车。私家车工厂，生产各种产品的私家车。）<br><strong>抽象工厂代码展示</strong><br><img src="/image/abstractFactory.png" alt="ws2"></p>
+<p>思路整理：<br>    在具体的开发中，要怎么用工厂模式要根据实际情况进行判断。像开头所说的，为了后期代码的扩展性更高一点，我们一般都要使用工厂方法模式，因为这样工厂所产生的是一个抽象的对象，当业务需求改变，我们只需要改变工厂中产生的对象即可。而当要生产的对象比较复杂，产品种类过多(比如车可以分为奔驰 宝马 奥迪等，但是每一个分类又可以分为越野车，商务车等)，这些产品不属于同一个种类，但是有一定的联系，这时候可以考虑抽象工厂，把工厂进行具体的分类。每个具体的工厂负责不同种类的产品生产，这样就会使工厂的结构才会更加清晰。<br>    抽象工厂模式的区别就是创建的对象更加复杂。</p>
+<pre><code>[1]: 
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/20/操作系统简介/" rel="next" title="操作系统OS简要了解">
+                <i class="fa fa-chevron-left"></i> 操作系统OS简要了解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析工厂方法模式和抽象工厂模式"><span class="nav-number">1.</span> <span class="nav-text">分析工厂方法模式和抽象工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂设计模式的作用："><span class="nav-number">1.1.</span> <span class="nav-text">工厂设计模式的作用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式的发展："><span class="nav-number">1.2.</span> <span class="nav-text">工厂模式的发展：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其中工厂模式中包括几个部分："><span class="nav-number">1.3.</span> <span class="nav-text">其中工厂模式中包括几个部分：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂方法模式代码展示："><span class="nav-number">1.3.1.</span> <span class="nav-text">工厂方法模式代码展示：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

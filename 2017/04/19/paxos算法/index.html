@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="算法,选举," />
 
 
 
@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="Mongodb高级">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="Paxos所解决的一致性问题是分布式环境中，各个节点的数据一致性，比如Zookeeper集群中，各个节点为了保持数据一致，需要把每个节点上多出来的数据同步到其它节点上。还有当zk集群中选举leader时，每个节点都投票给自己，为了保证最终节点中只存在一个leader，可以使用Paxos算法来决定。">
+<meta name="keywords" content="算法,选举">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mongodb高级">
-<meta property="og:url" content="http://yoursite.com/2017/03/25/Mongodb高级/index.html">
+<meta property="og:title" content="什么是Paxos算法，zookeeper是怎么使用它的">
+<meta property="og:url" content="http://yoursite.com/2017/04/19/paxos算法/index.html">
 <meta property="og:site_name" content="knight_ka | 生活及学习笔记">
-<meta property="og:description" content="Mongodb高级">
-<meta property="og:updated_time" content="2017-04-08T15:01:09.000Z">
+<meta property="og:description" content="Paxos所解决的一致性问题是分布式环境中，各个节点的数据一致性，比如Zookeeper集群中，各个节点为了保持数据一致，需要把每个节点上多出来的数据同步到其它节点上。还有当zk集群中选举leader时，每个节点都投票给自己，为了保证最终节点中只存在一个leader，可以使用Paxos算法来决定。">
+<meta property="og:updated_time" content="2017-04-18T16:57:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mongodb高级">
-<meta name="twitter:description" content="Mongodb高级">
+<meta name="twitter:title" content="什么是Paxos算法，zookeeper是怎么使用它的">
+<meta name="twitter:description" content="Paxos所解决的一致性问题是分布式环境中，各个节点的数据一致性，比如Zookeeper集群中，各个节点为了保持数据一致，需要把每个节点上多出来的数据同步到其它节点上。还有当zk集群中选举leader时，每个节点都投票给自己，为了保证最终节点中只存在一个leader，可以使用Paxos算法来决定。">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/25/Mongodb高级/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/19/paxos算法/"/>
 
 
 
 
 
-  <title> Mongodb高级 | knight_ka | 生活及学习笔记 </title>
+  <title> 什么是Paxos算法，zookeeper是怎么使用它的 | knight_ka | 生活及学习笔记 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/25/Mongodb高级/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/paxos算法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="knight_ka">
@@ -285,7 +285,7 @@
             
             
               
-                Mongodb高级
+                什么是Paxos算法，zookeeper是怎么使用它的
               
             
           </h1>
@@ -300,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-25T19:00:57+08:00">
-                2017-03-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T00:50:18+08:00">
+                2017-04-19
               </time>
             
 
@@ -323,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
-                    <span itemprop="name">MongoDB</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -341,8 +341,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/25/Mongodb高级/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/25/Mongodb高级/" itemprop="commentCount"></span>
+                <a href="/2017/04/19/paxos算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/19/paxos算法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/2017/03/25/Mongodb高级/" class="leancloud_visitors" data-flag-title="Mongodb高级">
+             <span id="/2017/04/19/paxos算法/" class="leancloud_visitors" data-flag-title="什么是Paxos算法，zookeeper是怎么使用它的">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -370,7 +370,7 @@
 
           
               <div class="post-description">
-                  Mongodb高级
+                  Paxos所解决的一致性问题是分布式环境中，各个节点的数据一致性，比如Zookeeper集群中，各个节点为了保持数据一致，需要把每个节点上多出来的数据同步到其它节点上。还有当zk集群中选举leader时，每个节点都投票给自己，为了保证最终节点中只存在一个leader，可以使用Paxos算法来决定。
               </div>
           
 
@@ -385,64 +385,64 @@
       
 
       
-        <p>目录：<br>1.文档之间支持多种关系(可以使用数据库变量引用)。<br>2.mongodb监控mongostat/mongotop<br>3.数据库备份与恢复(mongodump/mongorestore)<br>4.覆盖索引查询(提升查询效率)：查询出来的字段是索引字段。<br>5.explain()查询分析。<br>6.创建高级索引(数组，嵌套子文档索引)<br>7.索引限制(通过explain进行分析)<br>8.objectId的更改、使用js函数自增<br>9.全文检索开启<br>10.固定集合的大小</p>
-<p>文档与文档之间的关系<br>MongoDB 中的关系可以是：</p>
-<ul>
-<li>1:1 (1对1)</li>
-<li>1: N (1对多)</li>
-<li>N: 1 (多对1)</li>
-<li>N: N (多对多)</li>
-</ul>
-<p>一对一：保存字段address_id 为 address集合中的一个文档的id<br>一对多：保存字段address_ids 为 address集合中的多个文档的id，数组。</p>
-<p>引用可以使用 DBRefs 或 手动引用</p>
-<p>DBRef的形式：</p>
-<p>{ $ref : , $id : , $db :  }<br>三个字段表示的意义为：</p>
-<ul>
-<li>$ref：集合名称</li>
-<li>$id：引用的id</li>
-<li>$db:数据库名称，可选参数<br>以下实例中用户数据文档使用了 DBRef, 字段 address：</li>
-</ul>
-<p>{<br>   “_id”:ObjectId(“53402597d852426020000002”),<br>   “address”: {<br>   “$ref”: “address_home”,<br>   “$id”: ObjectId(“534009e4d852427820000002”),<br>   “$db”: “w3cschoolcc”},<br>   “contact”: “987654321”,<br>   “dob”: “01-01-1991”,<br>   “name”: “Tom Benzamin”<br>}</p>
-<p>其它核心API<br>1.查询分析：explain()</p>
-<p>现在，我们看看这个结果集的字段：</p>
-<ul>
-<li>indexOnly: 字段为 true ，表示我们使用了索引。</li>
-<li>cursor：因为这个查询使用了索引，MongoDB 中索引存储在B树结构中，所以这是也使用了 BtreeCursor 类型的游标。如果没有使用索引，游标的类型是 BasicCursor。这个键还会给出你所使用的索引的名称，你通过这个名称可以查看当前数据库下的system.indexes集合（系统自动创建，由于存储索引信息，这个稍微会提到）来得到索引的详细信息。</li>
-<li>n：当前查询返回的文档数量。</li>
-<li>nscanned/nscannedObjects：表明当前这次查询一共扫描了集合中多少个文档，我们的目的是，让这个数值和返回文档的数量越接近越好。</li>
-<li>millis：当前查询所需时间，毫秒数。</li>
-<li>indexBounds：当前查询具体使用的索引。</li>
-</ul>
-<p>2.使用 hint() 强行使用规定的索引</p>
-<p>虽然MongoDB查询优化器一般工作的很不错，但是也可以使用 hint 来强制 MongoDB 使用一个指定的索引。</p>
-<p>这种方法某些情形下会提升性能。 一个有索引的 collection 并且执行一个多字段的查询(一些字段已经索引了)。</p>
-<p>如下查询实例指定了使用 gender 和 user_name 索引字段来查询：</p>
+        <h1 id="用通俗易懂的话说一说什么是Paxos算法"><a href="#用通俗易懂的话说一说什么是Paxos算法" class="headerlink" title="用通俗易懂的话说一说什么是Paxos算法"></a>用通俗易懂的话说一说什么是Paxos算法</h1><h2 id="Paxos是什么"><a href="#Paxos是什么" class="headerlink" title="Paxos是什么"></a>Paxos是什么</h2><p>百度百科对Paxos算法的简介</p>
 <blockquote>
-<p>db.users.find({gender:”M”},{user_name:1,_id:0}).hint({gender:1,user_name:1})<br>可以使用 explain() 函数来分析以上查询：</p>
-<p>db.users.find({gender:”M”},{user_name:1,_id:0}).hint({gender:1,user_name:1}).explain()<br>MongoDB 索引限制</p>
+<p>Paxos算法是莱斯利·兰伯特（Leslie Lamport，就是 LaTeX中的”La”，此人现在在微软研究院）于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。</p>
 </blockquote>
-<p>额外开销</p>
-<p>每个索引占据一定的存储空间，在进行插入，更新和删除操作时也需要对索引进行操作。所以，如果你很少对集合进行读取操作，建议不使用索引。</p>
-<p>内存(RAM)使用</p>
-<p>由于索引是存储在内存(RAM)中,你应该确保该索引的大小不超过内存的限制。</p>
-<p>如果索引的大小大于内存的限制，MongoDB会删除一些索引，这将导致性能下降。</p>
-<p>查询限制</p>
-<p>索引不能被以下的查询使用：</p>
-<ul>
-<li>正则表达式及非操作符，如 $nin, $not, 等。</li>
-<li>算术运算符，如 $mod, 等。</li>
-<li>$where 子句<br>所以，检测你的语句是否使用索引是一个好的习惯，可以用explain来查看。</li>
-</ul>
-<p>索引键限制</p>
-<p>从2.6版本开始，如果现有的索引字段的值超过索引键的限制，MongoDB中不会创建索引。</p>
-<p>插入文档超过索引键限制</p>
-<p>如果文档的索引字段值超过了索引键的限制，MongoDB不会将任何文档转换成索引的集合。与mongorestore和mongoimport工具类似。</p>
-<p>最大范围</p>
-<ul>
-<li>集合中索引不能超过64个</li>
-<li>索引名的长度不能超过125个字符</li>
-<li>一个复合索引最多可以有31个字段<br><a href="http://www.runoob.com/mongodb/mongodb-gridfs.html" target="_blank" rel="external">http://www.runoob.com/mongodb/mongodb-gridfs.html</a></li>
-</ul>
+<p>可以从这段话中看出paxos的三个重要特点：</p>
+<pre><code>1. Paxos是基于消息传递的
+2. Paxos有高容错性
+3. Paxos是一种一致性算法
+</code></pre><p>值得注意的是这里所说的一致性的理解可能会出现偏差。</p>
+<p><strong>Paxos一致性的理解</strong><br>传统的一致性的理解可能会有：</p>
+<pre><code>* 关系型数据库的ACDI特性中的一致性。比如经典转账案例中，假如我们卡里有100元，对方卡里有100元，我们转账50元，自己账号中就要扣除50元，对方账号中就要多出50元。转账前后的总钱数是不会变的，总钱数都是200 保持一致。
+</code></pre><p>Paxox所解决的一致性问题并不是这个一致性。Paxos所解决的一致性问题是分布式环境中，各个节点的数据一致性，比如Zookeeper集群中，各个节点为了保持数据一致，需要把每个节点上多出来的数据同步到其它节点上。还有当zk集群中选举leader时，每个节点都投票给自己，为了保证最终节点中只存在一个leader，可以使用Paxos算法来决定。</p>
+<h2 id="Paxos一致性-白话介绍"><a href="#Paxos一致性-白话介绍" class="headerlink" title="Paxos一致性 白话介绍"></a>Paxos一致性 白话介绍</h2><p>假设有5个小伙伴决定十一去旅游，a说去上海，b说去云南，c说去西藏，d说去新疆，e说去泰国。这时候5个小伙伴的意见有分歧，(Paxos的使用场景一：决定最终答案，目的地。) 一般的做法是我们5个小伙伴创建一个qq群，商量出最终的决定。</p>
+<p>而Paxos认为：1.qq群不可靠，如果qq服务器挂了，我们就没办法进行决策了。2.商量出最终的决定可能会造成不公平的现象，Paxos用更加公平的算法最大让大家都心服口服。</p>
+<p>因为不依赖第三方工具(qq),所以我们5个小伙伴要决定最终去哪里，就要先制定一套每个人都认同的规则，比如，根据5个小伙伴的钱数来决定，如果有人的钱连买去泰国的机票都买不起，那么就不能去泰国。然后再在5个人中选出一个人来收集大家的信息(身上有多少钱)，收集到大家的钱数之后，根据定义好的规则去判断，我们可以去哪里，比如第一轮统计决定去上海，然后把结果告诉其他4个伙伴，然后如果其中有3个伙伴(半数以上)说不同意去上海，那么就得重新开始决定，直到决定最终的目的地。</p>
+<p>其实在paxos算法中，分为4种角色：</p>
+<pre><code>* Proposer ：提议者
+* Acceptor：决策者
+* Client：产生议题者
+* Learner：最终决策学习者
+</code></pre><p>5个小伙伴中的其它4个小伙伴就是Proposer提议者。</p>
+<p>被选出来做决定的那个人就是Acceptor决策者。(其他两种角色上面例子中并不涉及)</p>
+<p>client是Proposer的人民，Proposer收集到人民的信息，然后统一提交给决策者。</p>
+<p>Learner学习者：是用来学习Acceptor决策者最终决定了什么结果。</p>
+<h2 id="Paxos的使用-之-Zookeeper"><a href="#Paxos的使用-之-Zookeeper" class="headerlink" title="Paxos的使用 之 Zookeeper"></a>Paxos的使用 之 Zookeeper</h2><p>Zookeeper的选举策略就是用Paxos来实现的，默认使用的是Fast Paxos(Paxos的优化版,为了更快统计出来大家对最终决定的态度)，选举算法可以在配置zoo.cfg中进行配置。</p>
+<p>在比如5台Zookeeper集群的选举中：</p>
+<blockquote>
+<p>1.zk1启动，此时集群中就它一个节点，所以它提议自己做leader，还没有人同意。此时zk1 是LOOKING状态</p>
+<p>2.zk2启动，并提议自己做Leader，zk1投票自己，zk2也投票自己，但是zk2的leader id 大于zk1的leader id，所以zk2获胜，现在zk2两票，zk1 零票。但是集群中是5台服务器，zk2的票数并没有过半。所以它也是LOOKING状态。</p>
+<p>3.zk3 启动，此时他的id最大，所以在投票过程中获胜，zk3三票，票数过半，直接当认Leader,zk3为LEADING状态，zk1和zk2变成FOLLOW状态。</p>
+<ol>
+<li>zk4启动。投票自己，并与1 2 3 交换信息，但是发现集群中已经有了领导者，尽管它的id大，但是它只能当小弟了。</li>
+<li>zk5启动。投票自己，并与1 2 3 4交换信息，发现有领导者，认作小弟。</li>
+</ol>
+</blockquote>
+<p>本次选举过程中，zk3就是Acceptor决策者，每加入一个zk，这个zk发起投票，它就是Proposer提议者和CLient产生议题者。他们选举的规则很简单，就是1.根据leader id来决定谁是leader 2.如果集群中已经有了leader，并且leader状态正常，则不重新决策。</p>
+<p>然后当集群中Leader宕机了，或者它的Follow有一半以上宕机了，此时就要重新发起选举，因为此时其它节点中可能有一些数据还没有同步，所以此时的选举规则就比较麻烦。但是它还是利用的Paxos的决策者，提议者，产生议题者的计算思想。</p>
+<blockquote>
+<ol>
+<li><p>zk3宕机，此时集群中其它节点发现检测不到leader的状态了，则他们就提议要重新选举了。</p>
+</li>
+<li><p>zk1 zk2 zk4 zk5每个节点都发出自己的自己的状态信息到其它节点。数据id,Leader id,逻辑时钟。</p>
+</li>
+<li><p>4个节点各自接收到其它三个节点的信息，并和自己本机现在的状态进行对比1.逻辑时钟是不是一致，如果不一致，逻辑时钟最大的那个节点获胜。2.如果逻辑时钟一致，取出数据id(ZXID也就是事务id)，如果事务id不一致，则取出事务id大的那个节点获胜。3.如果事务id也一致，那么根据leader id判断，leader id大的那个获胜。最终每个节点都重新发出一份自己的投票结果。</p>
+<p>4.如果本次的投票结果有半数以上都是一样的结果，那么选举结束，开始数据同步工作。如果没有半数以上的投票结果，则继续第三步。直到选举成功为止。</p>
+</li>
+</ol>
+</blockquote>
+<p>选举的标准：</p>
+<pre><code>1、逻辑时钟小的选举结果被忽略，重新投票
+
+2、统一逻辑时钟后，数据id大的胜出
+
+3、数据id相同的情况下，leader id大的胜出
+</code></pre><p>根据这个规则选出leader。</p>
+<p><strong>ZK集群的特点</strong><br>Zookeeper虽然在配置文件中并没有指定master和slave</p>
+<p>但是，zookeeper工作时，是有一个节点为leader，其他则为follower</p>
+<p>Leader是通过内部的选举机制临时产生的</p>
 
       
     </div>
@@ -466,7 +466,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/选举/" rel="tag"># 选举</a>
           
         </div>
       
@@ -475,18 +477,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/25/Mongodb日常维护/" rel="next" title="Mongodb基本操作">
-                <i class="fa fa-chevron-left"></i> Mongodb基本操作
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/22/SQ3R阅读方法与技巧/" rel="prev" title="SQ3R阅读方法">
-                SQ3R阅读方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/18/centos_auto_login_install_jdk/" rel="prev" title="多台Centos服务器自动化部署jdk">
+                多台Centos服务器自动化部署jdk <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -547,8 +545,17 @@ var duoshuoQuery = {short_name:"dearas"};
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/headimage.jpg"
@@ -615,6 +622,22 @@ var duoshuoQuery = {short_name:"dearas"};
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用通俗易懂的话说一说什么是Paxos算法"><span class="nav-number">1.</span> <span class="nav-text">用通俗易懂的话说一说什么是Paxos算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Paxos是什么"><span class="nav-number">1.1.</span> <span class="nav-text">Paxos是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paxos一致性-白话介绍"><span class="nav-number">1.2.</span> <span class="nav-text">Paxos一致性 白话介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paxos的使用-之-Zookeeper"><span class="nav-number">1.3.</span> <span class="nav-text">Paxos的使用 之 Zookeeper</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

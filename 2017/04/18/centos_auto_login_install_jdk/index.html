@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="linux," />
+  <meta name="keywords" content="linux,shell,centos," />
 
 
 
@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="linux vim命令">
-<meta name="keywords" content="linux">
+<meta name="description" content="自动化配置免密登录 + jdk安装配置脚本编写">
+<meta name="keywords" content="linux,shell,centos">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux基础命令(2)">
-<meta property="og:url" content="http://yoursite.com/2017/03/15/linux基础命令2/index.html">
+<meta property="og:title" content="多台Centos服务器自动化部署jdk">
+<meta property="og:url" content="http://yoursite.com/2017/04/18/centos_auto_login_install_jdk/index.html">
 <meta property="og:site_name" content="knight_ka | 生活及学习笔记">
-<meta property="og:description" content="linux vim命令">
-<meta property="og:updated_time" content="2017-04-08T14:27:20.000Z">
+<meta property="og:description" content="自动化配置免密登录 + jdk安装配置脚本编写">
+<meta property="og:updated_time" content="2017-04-18T04:04:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux基础命令(2)">
-<meta name="twitter:description" content="linux vim命令">
+<meta name="twitter:title" content="多台Centos服务器自动化部署jdk">
+<meta name="twitter:description" content="自动化配置免密登录 + jdk安装配置脚本编写">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/15/linux基础命令2/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/18/centos_auto_login_install_jdk/"/>
 
 
 
 
 
-  <title> linux基础命令(2) | knight_ka | 生活及学习笔记 </title>
+  <title> 多台Centos服务器自动化部署jdk | knight_ka | 生活及学习笔记 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/linux基础命令2/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/18/centos_auto_login_install_jdk/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="knight_ka">
@@ -285,7 +285,7 @@
             
             
               
-                linux基础命令(2)
+                多台Centos服务器自动化部署jdk
               
             
           </h1>
@@ -300,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T22:00:57+08:00">
-                2017-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T00:22:32+08:00">
+                2017-04-18
               </time>
             
 
@@ -323,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/‘linux’/" itemprop="url" rel="index">
-                    <span itemprop="name">‘linux’</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -341,8 +341,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/15/linux基础命令2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/15/linux基础命令2/" itemprop="commentCount"></span>
+                <a href="/2017/04/18/centos_auto_login_install_jdk/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/18/centos_auto_login_install_jdk/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/2017/03/15/linux基础命令2/" class="leancloud_visitors" data-flag-title="linux基础命令(2)">
+             <span id="/2017/04/18/centos_auto_login_install_jdk/" class="leancloud_visitors" data-flag-title="多台Centos服务器自动化部署jdk">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -370,7 +370,7 @@
 
           
               <div class="post-description">
-                  linux vim命令
+                  自动化配置免密登录 + jdk安装配置脚本编写
               </div>
           
 
@@ -385,67 +385,8 @@
       
 
       
-        <h1 id="linux基础命令"><a href="#linux基础命令" class="headerlink" title="linux基础命令"></a>linux基础命令</h1><h2 id="vim命令常用操作"><a href="#vim命令常用操作" class="headerlink" title="vim命令常用操作"></a>vim命令常用操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">i</div><div class="line">a/A</div><div class="line">o/O</div><div class="line">r + ?替换</div><div class="line"></div><div class="line">0:文件当前行的开头</div><div class="line">$:文件当前行的末尾</div><div class="line">G:文件的最后一行开头</div><div class="line">1 + G到第一行 </div><div class="line">9 + G到第九行 = :9</div><div class="line"></div><div class="line">dd:删除一行</div><div class="line">3dd：删除3行</div><div class="line">yy:复制一行</div><div class="line">3yy:复制3行</div><div class="line">p:粘贴</div><div class="line">u:undo</div><div class="line">ctrl + r:redo</div><div class="line"></div><div class="line">&quot;a剪切板a</div><div class="line">&quot;b剪切板b</div><div class="line"></div><div class="line">&quot;ap粘贴剪切板a的内容</div><div class="line"></div><div class="line">每次进入vi就有行号</div><div class="line">vi ~/.vimrc</div><div class="line">set nu</div><div class="line"></div><div class="line">:w a.txt另存为</div><div class="line">:w &gt;&gt; a.txt内容追加到a.txt</div><div class="line"></div><div class="line">:e!恢复到最初状态</div><div class="line"></div><div class="line">:1,$s/hadoop/root/g 将第一行到追后一行的hadoop替换为root</div><div class="line">:1,$s/hadoop/root/c 将第一行到追后一行的hadoop替换为root(有提示)</div></pre></td></tr></table></figure>
-<h2 id="l查找"><a href="#l查找" class="headerlink" title="l查找"></a>l查找</h2><p>1.查找可执行的命令：<br>which ls</p>
-<p>2.查找可执行的命令和帮助的位置：<br>whereis ls</p>
-<p>3.查找文件(需要更新库:updatedb)<br>locate hadoop.txt</p>
-<p>4.从某个文件夹开始查找<br>find / -name “hadooop<em>“<br>find / -name “hadooop</em>“ -ls</p>
-<p>5.查找并删除<br>find / -name “hadooop<em>“ -ok rm {} \;<br>find / -name “hadooop</em>“ -exec rm {} \;</p>
-<p>6.查找用户为hadoop的文件<br>find /usr -user hadoop -ls</p>
-<p>7.查找用户为hadoop并且(-a)拥有组为root的文件<br>find /usr -user hadoop -a -group root -ls</p>
-<p>8.查找用户为hadoop或者(-o)拥有组为root并且是文件夹类型的文件<br>find /usr -user hadoop -o -group root -a -type d</p>
-<p>9.查找权限为777的文件<br>find / -perm -777 -type d -ls</p>
-<p>10.显示命令历史<br>history</p>
-<p>11.grep<br>grep hadoop /etc/password</p>
-<p>##打包与压缩<br>1.gzip压缩<br>gzip a.txt</p>
-<p>2.解压<br>gunzip a.txt.gz<br>gzip -d a.txt.gz</p>
-<p>3.bzip2压缩<br>bzip2 a</p>
-<p>4.解压<br>bunzip2 a.bz2<br>bzip2 -d a.bz2</p>
-<p>5.将当前目录的文件打包<br>tar -cvf bak.tar .<br>将/etc/password追加文件到bak.tar中(r)<br>tar -rvf bak.tar /etc/password</p>
-<p>6.解压<br>tar -xvf bak.tar</p>
-<p>7.打包并压缩gzip<br>tar -zcvf a.tar.gz</p>
-<p>8.解压缩<br>tar -zxvf a.tar.gz<br>解压到/usr/下<br>tar -zxvf a.tar.gz -C /usr</p>
-<p>9.查看压缩包内容<br>tar -ztvf a.tar.gz</p>
-<p>zip/unzip</p>
-<p>10.打包并压缩成bz2<br>tar -jcvf a.tar.bz2</p>
-<p>11.解压bz2<br>tar -jxvf a.tar.bz2</p>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>1.cut截取以:分割保留第七段<br>grep hadoop /etc/passwd | cut -d: -f7</p>
-<p>2.排序<br>du | sort -n </p>
-<p>3.查询不包含hadoop的<br>grep -v hadoop /etc/passwd</p>
-<p>4.正则表达包含hadoop<br>grep ‘hadoop’ /etc/passwd</p>
-<p>5.正则表达(点代表任意一个字符)<br>grep ‘h.*p’ /etc/passwd</p>
-<p>6.正则表达以hadoop开头<br>grep ‘^hadoop’ /etc/passwd</p>
-<p>7.正则表达以hadoop结尾<br>grep ‘hadoop$’ /etc/passwd</p>
-<p>规则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.  : 任意一个字符</div><div class="line">a* : 任意多个a(零个或多个a)</div><div class="line">a? : 零个或一个a</div><div class="line">a+ : 一个或多个a</div><div class="line">.* : 任意多个任意字符</div><div class="line">\. : 转义.</div><div class="line">\&lt;h.*p\&gt; ：以h开头，p结尾的一个单词</div><div class="line">o\&#123;2\&#125; : o重复两次</div></pre></td></tr></table></figure></p>
-<p>grep ‘^i.{18}n$’ /usr/share/dict/words</p>
-<p>查找不是以#开头的行<br>grep -v ‘^#’ a.txt | grep -v ‘^$’ </p>
-<p>以h或r开头的<br>grep ‘^[hr]’ /etc/passwd</p>
-<p>不是以h和r开头的<br>grep ‘^[^hr]’ /etc/passwd</p>
-<p>不是以h到r开头的<br>grep ‘^[^h-r]’ /etc/passwd</p>
-<h2 id="输入输出重定向及管道"><a href="#输入输出重定向及管道" class="headerlink" title="输入输出重定向及管道"></a>输入输出重定向及管道</h2><p>1.新建一个文件<br>touch a.txt</p>
-<blockquote>
-<p>b.txt</p>
-</blockquote>
-<p>2.错误重定向:2&gt;<br>find /etc -name zhaoxing.txt 2&gt; error.txt</p>
-<p>3.将正确或错误的信息都输入到log.txt中<br>find /etc -name passwd &gt; /tmp/log.txt 2&gt;&amp;1<br>find /etc -name passwd &amp;&gt; /tmp/log.txt</p>
-<p>4.追加&gt;&gt;</p>
-<p>5.将小写转为大写（输入重定向）<br>tr “a-z” “A-Z” &lt; /etc/passwd</p>
-<p>6.自动创建文件<br>cat &gt; log.txt &lt;&lt; EXIT</p>
-<blockquote>
-<p>ccc<br>ddd<br>EXI</p>
-</blockquote>
-<p>7.查看/etc下的文件有多少个？<br>ls -l /etc/ | grep ‘^d’ | wc -l</p>
-<p>8.查看/etc下的文件有多少个，并将文件详情输入到result.txt中<br>ls -l /etc/ | grep ‘^d’ | tee result.txt | wc -l</p>
-<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><p>1.查看用户最近登录情况<br>last<br>lastlog</p>
-<p>2.查看硬盘使用情况<br>df</p>
-<p>3.查看文件大小<br>du</p>
-<p>4.查看内存使用情况<br>free</p>
-<p>5.查看文件系统<br>/proc</p>
-<p>6.查看日志<br>ls /var/log/</p>
-<p>7.查看系统报错日志<br>tail /var/log/messages</p>
-<p>8.查看进程<br>top</p>
-<p>9.结束进程<br>kill 1234<br>kill -9 4333</p>
-
+        <h1 id="自动化部署脚本"><a href="#自动化部署脚本" class="headerlink" title="自动化部署脚本"></a>自动化部署脚本</h1><h3 id="部署免密登录"><a href="#部署免密登录" class="headerlink" title="部署免密登录"></a>部署免密登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">##!/bin/bash</span></div><div class="line"></div><div class="line"><span class="comment"># 自动化部署jdk主程序</span></div><div class="line"><span class="comment"># 1.前期准备工作 ip地址固定 可以访问局域网</span></div><div class="line"><span class="comment"># 2.在一台centos中创建httpd，其他服务器安装wget</span></div><div class="line"><span class="comment"># 3.下载jdk源码包，解压，配置环境变量，并自动进行人机交互</span></div><div class="line"></div><div class="line"><span class="comment"># 定义变量</span></div><div class="line">SERVERS=<span class="string">"192.168.1.101 192.168.1.102 192.168.1.104"</span></div><div class="line">PASSWORD=000000</div><div class="line"></div><div class="line"><span class="comment"># 自动创建进行ssh-copy-id 配置免密登录</span></div><div class="line"><span class="function"><span class="title">auto_ssh_copy_id</span></span>() &#123;</div><div class="line">	<span class="built_in">echo</span> <span class="string">'服务器开始copy-id:'</span> + <span class="variable">$1</span> + <span class="string">' : '</span>  <span class="variable">$2</span></div><div class="line">	<span class="comment"># 永久等待</span></div><div class="line">	expect -c <span class="string">"set timeout -1；</span></div><div class="line">		spawn ssh-copy-id -i /Users/tnp/.ssh/id_rsa.pub root@<span class="variable">$1</span>;</div><div class="line">		expect &#123;</div><div class="line">			*(yes/no)* &#123;send -- yes\r;exp_continue;&#125;</div><div class="line">			*assword:* &#123;send -- <span class="variable">$2</span>\r;exp_continue;&#125;</div><div class="line">			eof		   &#123;exit 0;&#125;</div><div class="line">		&#125;";</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"># 遍历所有的服务器 配置免密登录</span></div><div class="line"><span class="function"><span class="title">ssh_copy_id_all</span></span>()&#123;</div><div class="line">	<span class="keyword">for</span> SERVER <span class="keyword">in</span> <span class="variable">$SERVERS</span></div><div class="line">	<span class="keyword">do</span></div><div class="line">		auto_ssh_copy_id <span class="variable">$SERVER</span> <span class="variable">$PASSWORD</span></div><div class="line">	<span class="keyword">done</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"># 调用方法</span></div><div class="line">ssh_copy_id_all</div><div class="line"></div><div class="line"><span class="comment"># 拷贝安装脚本到各应用服务器中</span></div><div class="line"><span class="keyword">for</span> SERVER <span class="keyword">in</span> <span class="variable">$SERVERS</span></div><div class="line"><span class="keyword">do</span></div><div class="line">	scp ./install.sh root@<span class="variable">$SERVER</span>:/root/</div><div class="line">	ssh root@<span class="variable">$SERVER</span></div><div class="line">	chmod +x /root/install.sh</div><div class="line">	/root/install.sh</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<h3 id="下载jdk-配置环境变量"><a href="#下载jdk-配置环境变量" class="headerlink" title="下载jdk 配置环境变量"></a>下载jdk 配置环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> <span class="literal">false</span> </div><div class="line"><span class="keyword">then</span></div><div class="line">	jdk自动安装脚本</div><div class="line">	1. 安装wget，下载jdk包(下载jdk源码到本机中192.168.1.92)</div><div class="line">	2. 解压jdk</div><div class="line">	3. 配置环境变量</div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># HTTP地址</span></div><div class="line">HTTP_SERVER=192.168.1.92:8080</div><div class="line">yum install -y wget</div><div class="line">wget <span class="variable">$HTTP_SERVER</span>/soft/jdk-8u91-linux-x64.tar.gz</div><div class="line">tar -zxvf jdk-8u91-linux-x64.tar.gz -C /usr/<span class="built_in">local</span></div><div class="line">cat &gt;&gt; ~/.bash_profile &lt;&lt; EOF</div><div class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/jdk1.8.0_91</div><div class="line"><span class="built_in">export</span> PATH=\<span class="variable">$PATH</span>:\<span class="variable">$JAVA_HOME</span>/bin</div><div class="line">EOF</div><div class="line"><span class="built_in">source</span> ~/.bash_profile</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -470,6 +411,10 @@
           
             <a href="/tags/linux/" rel="tag"># linux</a>
           
+            <a href="/tags/shell/" rel="tag"># shell</a>
+          
+            <a href="/tags/centos/" rel="tag"># centos</a>
+          
         </div>
       
 
@@ -477,18 +422,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/shell编程/" rel="next" title="linux shell编程">
-                <i class="fa fa-chevron-left"></i> linux shell编程
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/15/linux-yum/" rel="prev" title="linux yum源配置">
-                linux yum源配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/08/FastDFS简介及集群版搭建&使用/" rel="prev" title="FastDFS简介及集群搭建">
+                FastDFS简介及集群搭建 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -636,7 +577,7 @@ var duoshuoQuery = {short_name:"dearas"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux基础命令"><span class="nav-number">1.</span> <span class="nav-text">linux基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim命令常用操作"><span class="nav-number">1.1.</span> <span class="nav-text">vim命令常用操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#l查找"><span class="nav-number">1.2.</span> <span class="nav-text">l查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.3.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出重定向及管道"><span class="nav-number">1.4.</span> <span class="nav-text">输入输出重定向及管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程管理"><span class="nav-number">1.5.</span> <span class="nav-text">进程管理</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化部署脚本"><span class="nav-number">1.</span> <span class="nav-text">自动化部署脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署免密登录"><span class="nav-number">1.0.1.</span> <span class="nav-text">部署免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载jdk-配置环境变量"><span class="nav-number">1.0.2.</span> <span class="nav-text">下载jdk 配置环境变量</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

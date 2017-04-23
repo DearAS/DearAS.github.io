@@ -1,0 +1,886 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JMS,ActiveMQ," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/headimage.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="点对点模式，消息发送者设置消息模式为持久模式Delivery.PERSISTENT后，消费者即使不在线。同样能够接受到下线期间的消息； 而发布订阅模式下，只有消息发送者设置为持久下次，并且，消息订阅者(也就是消息消费者)设置为持久订阅者才可以接受到下线期间的消息(配置方式见代码)。">
+<meta name="keywords" content="JMS,ActiveMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMS及它的一个实现ActiveMQ使用实例">
+<meta property="og:url" content="http://yoursite.com/2017/04/23/JMS及它的一个实现ActiveMQ使用实例/index.html">
+<meta property="og:site_name" content="knight_ka | 生活及学习笔记">
+<meta property="og:description" content="点对点模式，消息发送者设置消息模式为持久模式Delivery.PERSISTENT后，消费者即使不在线。同样能够接受到下线期间的消息； 而发布订阅模式下，只有消息发送者设置为持久下次，并且，消息订阅者(也就是消息消费者)设置为持久订阅者才可以接受到下线期间的消息(配置方式见代码)。">
+<meta property="og:updated_time" content="2017-04-23T14:40:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JMS及它的一个实现ActiveMQ使用实例">
+<meta name="twitter:description" content="点对点模式，消息发送者设置消息模式为持久模式Delivery.PERSISTENT后，消费者即使不在线。同样能够接受到下线期间的消息； 而发布订阅模式下，只有消息发送者设置为持久下次，并且，消息订阅者(也就是消息消费者)设置为持久订阅者才可以接受到下线期间的消息(配置方式见代码)。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/23/JMS及它的一个实现ActiveMQ使用实例/"/>
+
+
+
+
+
+  <title> JMS及它的一个实现ActiveMQ使用实例 | knight_ka | 生活及学习笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">knight_ka | 生活及学习笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生命不息|奋斗不止</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/23/JMS及它的一个实现ActiveMQ使用实例/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="knight_ka">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/headimage.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="knight_ka | 生活及学习笔记">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="knight_ka | 生活及学习笔记" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JMS及它的一个实现ActiveMQ使用实例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-23T22:13:11+08:00">
+                2017-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JMS/" itemprop="url" rel="index">
+                    <span itemprop="name">JMS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/23/JMS及它的一个实现ActiveMQ使用实例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/23/JMS及它的一个实现ActiveMQ使用实例/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+	
+
+          
+          
+             <span id="/2017/04/23/JMS及它的一个实现ActiveMQ使用实例/" class="leancloud_visitors" data-flag-title="JMS及它的一个实现ActiveMQ使用实例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  点对点模式，消息发送者设置消息模式为持久模式Delivery.PERSISTENT后，消费者即使不在线。同样能够接受到下线期间的消息； 而发布订阅模式下，只有消息发送者设置为持久下次，并且，消息订阅者(也就是消息消费者)设置为持久订阅者才可以接受到下线期间的消息(配置方式见代码)。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JMS及它的一个实现ActiveMQ使用实例"><a href="#JMS及它的一个实现ActiveMQ使用实例" class="headerlink" title="JMS及它的一个实现ActiveMQ使用实例"></a>JMS及它的一个实现ActiveMQ使用实例</h1><h2 id="JMS是什么"><a href="#JMS是什么" class="headerlink" title="JMS是什么"></a>JMS是什么</h2><p>首先，JMS的全称是Java Message Service,Java消息服务。它是Java为所有的消息队列而创建的一种规范，目的是使开发者可以使用同样的API去调用不同的消息中间件。</p>
+<p>在WEB应用开发中，会有很多的消息中间件，它们之间各有各的特点，但是在Java中使用这些消息中间件的时候如果没有一种同一个规范，可能就会导致ActiveMQ有一套自己的API，RabbitMQ有一套自己的API 等等，不同的消息中间件使用的是不同的API,这对于Java开发者来说是一件非常痛苦的事情，因为你要根据不同的消息中间件，去学习不同使用方法，所以Java就为我们提供了JMS这种通用的接口，它规定了，所有的消息中间件要想在Java中使用，都要按照JMS的规定去开发自己的API,这样Java开发者就可以非常轻松的使用同样的API去调用不同的消息中间件。</p>
+<h3 id="JMS中的其中角色"><a href="#JMS中的其中角色" class="headerlink" title="JMS中的其中角色"></a>JMS中的其中角色</h3><ul>
+<li>JMS提供者：也就是ActiveMQ,RabbitMQ,Kafka等这些实现了JMS的提供商</li>
+<li>JMSk客户： 也就是使用JMS去发布消息或者消费消息的应用程序。如JMS生产者和消费者都是客户。</li>
+<li>JMS生产者： 也就是专门用来生产消息的客户。</li>
+<li>JMS消费者： 也就是专门用来消费消息的客户。</li>
+<li>JMS消息： JMS客户之间传递的数据</li>
+<li>JMS队列： 容纳发送数据的一个容器。队列中的消息一旦被阅读，就会从该队列中移除</li>
+<li>JMS主题： 一种支持，一条消息可以使多个消费者接受的机制</li>
+</ul>
+<h3 id="JMS中的两种模型"><a href="#JMS中的两种模型" class="headerlink" title="JMS中的两种模型"></a>JMS中的两种模型</h3><p>一、 点对点模型Queue(或称队列模型)</p>
+<p>二、 发布订阅模型Topic(或称主题模型)</p>
+<p>这两种模型的区别，将在下面用ActiveMQ使用示例中用代码说明。</p>
+<h2 id="ActiveMQ实例"><a href="#ActiveMQ实例" class="headerlink" title="ActiveMQ实例"></a>ActiveMQ实例</h2><h3 id="Topic-发布订阅模型消息消费方代码"><a href="#Topic-发布订阅模型消息消费方代码" class="headerlink" title="Topic 发布订阅模型消息消费方代码"></a>Topic 发布订阅模型消息消费方代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> io.github.dearas.Activemq.Topic;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnection;</div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.jms.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * AvtiveMQ 消息队列主题模式消息消费方Demo</div><div class="line"> * 主题模式与点对点(一对一)模式的区别：</div><div class="line"> *      1.一对一模式，一条消息只能被一个消费者消费，也就是消息生产者生产消息到Queue中，只有一个消费方可以消费到这个消息。如果有多个消息消费者指向同一个队列，那么最先`抢`到这个消息的消费者可以消费此消息，其他的消费者只能拿到队列里的下个条消息。也就是说：同一条消息只可能被消费一次。</div><div class="line"> *      2.发布订阅模式(主题模式)，一条消息可以被多个消费者消费。也就是说，消息生产者生产一条消息到一个主题中，则提供者ActiveMQ就会把这条消息推送到所有已经订阅了这个主题的消息消费者的队列中。(请区分消息提供者和消息消费者的区别)</div><div class="line"> *</div><div class="line"> *      3.一对一模式，生产者设置消息传递模式为持久化DeliverMode.PERSISTENT后，生产消息到消费者队列中，如果此时消费者不在线，在消费者上线后同样可以接受到队列里的消息。如果设置为DeliverMode.NON_PERSISTENT非持久化模式，则消息消费者上线后接收不到离线这段时间发送过来的消息。</div><div class="line"> *      4.主题模式，生产者设置消息传递模式为持久化DeliverMode.PERSISTENT后，生产者生产消息到主题中，而主题订阅者可以分为普通订阅者和持久订阅者，持久订阅者就是在消费者下线期间，所产生的消息，在上线后同样可以收到(前提：1.注册一个ClientId.并且clientId必须是唯一的，不然会报错。2.消息生产者设置消息传递模式为持久模式)。</div><div class="line"> * Created by tnp on 22/04/2017.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TopicCustomerTest</span> <span class="keyword">implements</span> <span class="title">MessageListener</span>,<span class="title">ExceptionListener</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException, InterruptedException </span>&#123;</div><div class="line">        TopicCustomerTest test = <span class="keyword">new</span> TopicCustomerTest();</div><div class="line"></div><div class="line">        <span class="comment">//1.初始化activeMQ</span></div><div class="line">        test.initialize();</div><div class="line">        <span class="comment">//2.消费消息</span></div><div class="line">        test.consumerMessage();</div><div class="line"></div><div class="line">        Thread.sleep(Long.MAX_VALUE);</div><div class="line">        <span class="comment">//3.关闭连接  释放资源</span></div><div class="line">        test.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 默认用户名</span></div><div class="line">    <span class="keyword">private</span> String username = ActiveMQConnection.DEFAULT_USER;</div><div class="line">    <span class="comment">// 默认密码</span></div><div class="line">    <span class="keyword">private</span> String password = ActiveMQConnection.DEFAULT_PASSWORD;</div><div class="line">    <span class="comment">// 默认ActiveMQ地址</span></div><div class="line">    <span class="keyword">private</span> String brokerurl = <span class="string">"failover://tcp://127.0.0.1:61616"</span>;</div><div class="line"><span class="comment">//    private String brokerurl = ActiveMQConnection.DEFAULT_BROKER_URL;</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> MessageConsumer consumer;</div><div class="line">    <span class="keyword">private</span> Session session;</div><div class="line">    <span class="keyword">private</span> Connection connection;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 1.创建一个ActiveMQ的连接工厂</div><div class="line">     * 2.从连接工厂中拿出一个MQ连接。这些MQ连接都实现了JMS的Connection接口。</div><div class="line">     * 3.利用MQ连接对象获取一个本次会话对象Session。可以利用session创建Message,MessageCustomer,MessageProducer</div><div class="line">     * 4.利用session创建一个消息目的地Destination。Queue或者Topic</div><div class="line">     * 5.利用session创建一个消息消费者对象MessageCustomer,需要传入目的地。</div><div class="line">     * <span class="doctag">@throws</span> JMSException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        ActiveMQConnectionFactory factory = <span class="keyword">new</span> ActiveMQConnectionFactory(username, password, brokerurl);</div><div class="line">        <span class="comment">// MQ连接</span></div><div class="line">        connection = factory.createConnection();</div><div class="line">        connection.setClientID(<span class="string">"tnp"</span>);  <span class="comment">// 必须在创建会话之前设置clientID</span></div><div class="line">        <span class="comment">// MQ会话对象 设置不开启事务，自动接收消息</span></div><div class="line">        session = connection.createSession(<span class="keyword">false</span>, Session.AUTO_ACKNOWLEDGE);</div><div class="line"></div><div class="line">        <span class="comment">// 目的地 Destination. Topic  Queue都实现了JMS的Destination</span></div><div class="line">        Topic mytopic = session.createTopic(<span class="string">"mytopic-2"</span>);</div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment">// 创建普通消息消费者</span></div><div class="line">        <span class="comment">//consumer = session.createConsumer(mytopic);</span></div><div class="line">        <span class="comment">// 创建持久消息订阅者</span></div><div class="line">        <span class="comment">// 如果不配置clientID 会报错：You cannot create a durable subscriber without specifying a unique clientID on a Connection</span></div><div class="line">        <span class="comment">// 所以需要设置一个ClientID 并且是唯一的</span></div><div class="line"></div><div class="line">        consumer = session.createDurableSubscriber(mytopic,<span class="string">"tnp"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 消费消息：</div><div class="line">     *  注意：消费消息有两种方式，一种是使用JMS提供的消息监听器MessageListener，重写onMessage方法</div><div class="line">     *      另一种是直接调用消息消费者MessageConsumer对象的receiver()方法。</div><div class="line">     * <span class="doctag">@throws</span> JMSException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consumerMessage</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="comment">// 开启连接</span></div><div class="line">        connection.start();</div><div class="line">        <span class="comment">// 设置消息监听器</span></div><div class="line">        consumer.setMessageListener(<span class="keyword">this</span>);</div><div class="line">        <span class="comment">// 设置异常监听器</span></div><div class="line">        connection.setExceptionListener(<span class="keyword">this</span>);</div><div class="line">        <span class="comment">//如果设置了MessageListener，再使用receive则会报错。Cannot synchronously receive a message when a MessageListener is set</span></div><div class="line">        <span class="comment">//同一个session下只能使用一中方式接受消息</span></div><div class="line"><span class="comment">//        TextMessage message = (TextMessage)consumer.receive();</span></div><div class="line"><span class="comment">//        System.out.println("消息消费中，消息id为： " + message.getJMSMessageID());</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 释放资源</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="keyword">if</span>(consumer!=<span class="keyword">null</span>) consumer.close();</div><div class="line">        <span class="keyword">if</span>(session!=<span class="keyword">null</span>) session.close();</div><div class="line">        <span class="keyword">if</span>(connection!=<span class="keyword">null</span>) connection.close();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 消息监听器：</div><div class="line">     * 消息监听器的重写方法。当有消息进入队列或主题时自动回调本方法。</div><div class="line">     * <span class="doctag">@param</span> message</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Message message)</span> </span>&#123;</div><div class="line">        TextMessage textMessage = (TextMessage)message;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 打印消息内容</span></div><div class="line">            System.out.println(textMessage.getText());</div><div class="line">        &#125; <span class="keyword">catch</span> (JMSException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 异常监听器</div><div class="line">     * <span class="doctag">@param</span> exception</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onException</span><span class="params">(JMSException exception)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"程序抛出异常，err: "</span>);</div><div class="line">        exception.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Topic-发布订阅模型消息发送方代码"><a href="#Topic-发布订阅模型消息发送方代码" class="headerlink" title="Topic 发布订阅模型消息发送方代码"></a>Topic 发布订阅模型消息发送方代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> io.github.dearas.Activemq.Topic;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnection;</div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.jms.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Tpoic 主题模式，消息生产者。</div><div class="line"> * 测试：</div><div class="line"> *  1.生产者使用非持久化模式生产消息。消费者是普通消费者时，测试消费者能否接收到下线期间的消息： 接受不到</div><div class="line"> *  2.生产者使用持久化模式生产消息。消费者是普通消费者时，测试消费者能否接收到下线期间的消息：   接受不到</div><div class="line"> *  3.生产者使用非持久化模式生产消息，消费者是持久订阅者，测试消费者能否接收到下线期间的消息：   接受不到</div><div class="line"> *  4.生产者使用持久化模式生产消息，消费者是持久订阅者，测试消费者能否接收到下线期间的消息：   接受到了！！</div><div class="line"> *  5.在订阅者为订阅之前，发布一条主题消息，当订阅者订阅后，测试是否能够接收到未订阅之前的消息： 接受不到</div><div class="line"> *  结论：</div><div class="line"> *      1.在发布订阅模式下，不管是普通订阅者还是持久订阅者，订阅者都只能接受到订阅了该主题之后，主题中发布的消息。无法接受未订阅之前的消息。</div><div class="line"> *      2.在发布订阅模式下，只有发布者使用持久化消息模式发布，并且订阅者是持久化订阅者，这时候订阅者才能接受到在下线期间所产生的消息。</div><div class="line"> *  订阅者注意事项：</div><div class="line"> *      1.同一个Session下消息的接受方式只能使用一种，要么使用Listener,要么手动receive。</div><div class="line"> *      2.持久订阅者必须设置一个唯一的ClientID,并且必须在没有创建会话之前设置。</div><div class="line"> * Created by tnp on 23/04/2017.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TopicProducerTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        TopicProducerTest test = <span class="keyword">new</span> TopicProducerTest();</div><div class="line">        <span class="comment">// 1.初始化ActiveMQ</span></div><div class="line">        test.initialize();</div><div class="line">        <span class="comment">// 2.生产消息</span></div><div class="line">        test.messsageProducer();</div><div class="line">        <span class="comment">//3.释放资源 关闭连接</span></div><div class="line">        test.close();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 默认用户名</span></div><div class="line">    <span class="keyword">private</span> String username = ActiveMQConnection.DEFAULT_USER;</div><div class="line">    <span class="comment">// 默认密码</span></div><div class="line">    <span class="keyword">private</span> String password = ActiveMQConnection.DEFAULT_PASSWORD;</div><div class="line">    <span class="comment">// 默认ActiveMQ地址</span></div><div class="line">    <span class="keyword">private</span> String brokerurl = <span class="string">"failover://tcp://127.0.0.1:61616"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Connection connection;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Session session;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> MessageProducer producer;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        ActiveMQConnectionFactory factory = <span class="keyword">new</span> ActiveMQConnectionFactory(username, password, brokerurl);</div><div class="line"></div><div class="line">        <span class="comment">//1.获取一个MQ链接</span></div><div class="line">        connection = factory.createConnection();</div><div class="line"></div><div class="line">        <span class="comment">//2.获取一个会话</span></div><div class="line">        session = connection.createSession(<span class="keyword">false</span>,Session.AUTO_ACKNOWLEDGE);</div><div class="line"></div><div class="line">        <span class="comment">//3.获取目的地</span></div><div class="line">        Topic mytopic = session.createTopic(<span class="string">"mytopic-2"</span>);</div><div class="line"></div><div class="line">        <span class="comment">//4.获取消息生产者 此步骤会产生以下Topic或者Queue</span></div><div class="line">        producer = session.createProducer(mytopic);</div><div class="line"></div><div class="line">        <span class="comment">// 设置消息传递模式为持久化模式  默认就是持久化</span></div><div class="line">        producer.setDeliveryMode(DeliveryMode.PERSISTENT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">messsageProducer</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="comment">// 1.开启链接</span></div><div class="line">        connection.start();</div><div class="line">        <span class="comment">// 2.创建一个Text类型的消息进行发送。 还有ObjectMessage</span></div><div class="line">        TextMessage textMessage = session.createTextMessage();</div><div class="line">        textMessage.setText(<span class="string">"Everything will be ok! +++ 4"</span>);</div><div class="line">        <span class="comment">// 3.发送消息</span></div><div class="line">        producer.send(textMessage);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//释放资源</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="keyword">if</span>(producer!=<span class="keyword">null</span>) producer.close();</div><div class="line">        <span class="keyword">if</span>(session!=<span class="keyword">null</span>) session.close();</div><div class="line">        <span class="keyword">if</span>(connection!=<span class="keyword">null</span>) connection.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Queue-点对点模型消息消费方代码"><a href="#Queue-点对点模型消息消费方代码" class="headerlink" title="Queue 点对点模型消息消费方代码"></a>Queue 点对点模型消息消费方代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> io.github.dearas.Activemq.Queue;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnection;</div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.jms.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * ActiveMQ 消息模型：一对一 Queue队列模式消息</div><div class="line"> * Queue一对一队列：</div><div class="line"> *      生产者向固定的消费者队列发送消息。</div><div class="line"> * 消息生产者.</div><div class="line"> * Created by tnp on 22/04/2017.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerTest</span> <span class="keyword">implements</span> <span class="title">MessageListener</span></span>&#123;</div><div class="line">    <span class="comment">//ActiveMQ连接工厂</span></div><div class="line">    <span class="keyword">private</span> ActiveMQConnectionFactory connectionFactory;</div><div class="line"></div><div class="line">    <span class="comment">// JMS 连接对象</span></div><div class="line">    <span class="keyword">private</span> Connection activeMQConnection;</div><div class="line"></div><div class="line">    <span class="comment">// JMS 会话 session是一个发送和接受消息的线程。可以用它来创建MessageProducer MessageConsumer Message</span></div><div class="line">    <span class="keyword">private</span> Session session;</div><div class="line"></div><div class="line">    <span class="comment">// JMS 目的地对象 获取是队列，还是主题</span></div><div class="line">    <span class="keyword">private</span> Destination destination;</div><div class="line"></div><div class="line">    <span class="comment">// JMS 从目的地中取出消息的消息消费者</span></div><div class="line">    <span class="keyword">private</span> MessageConsumer messageConsumer;</div><div class="line"></div><div class="line">    <span class="comment">// 初始化ActiveMQ</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="comment">// 创建一个MQ的连接工厂</span></div><div class="line">        connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,</div><div class="line">                ActiveMQConnection.DEFAULT_PASSWORD, <span class="string">"failover://tcp://192.168.1.99:61616"</span>);</div><div class="line">        <span class="comment">// 从连接工厂中获取一个MQ连接</span></div><div class="line">        activeMQConnection = connectionFactory.createConnection();</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 通过连接Connection获取一个会话对象Session。</div><div class="line">         * transacted 为事务标识 acknowledgeMode 为签收模式</div><div class="line">         * AUTO_ACKNOWLEDGE : 自动签收消息</div><div class="line">         * CLIENT_ACKNOWLEDGE : 客户端手动确认消息</div><div class="line">         * DUPS_OK_ACKNOWLEDGE : 自动批量确认消息</div><div class="line">         * SESSION_TRANSACTED : 事务提交并确认</div><div class="line">         */</div><div class="line">        session = activeMQConnection.createSession(Boolean.FALSE,Session.AUTO_ACKNOWLEDGE);</div><div class="line"></div><div class="line">        <span class="comment">// 利用Session创建一个队列(一对一队列)</span></div><div class="line">        destination = session.createQueue(<span class="string">"tnp.queue"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 目的地消息消费者</span></div><div class="line">        messageConsumer = session.createConsumer(destination);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 消费消息</div><div class="line">     *  同一个session下面，要么都是用receive()接受消息。要么都使用MessageListener接受消息</div><div class="line">     * <span class="doctag">@throws</span> JMSException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consumeMessage</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="comment">// 开启连接</span></div><div class="line">        activeMQConnection.start();</div><div class="line">        <span class="comment">// 设置消息监听器-当有消息时触发</span></div><div class="line">        messageConsumer.setMessageListener(<span class="keyword">this</span>);</div><div class="line">        <span class="comment">// 用连接对象设置异常监听器 当有异常发生时触发</span></div><div class="line">        activeMQConnection.setExceptionListener(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 接受消息</span></div><div class="line"><span class="comment">//        Message receive = messageConsumer.receive();</span></div><div class="line"><span class="comment">//        System.out.println(receive.getJMSMessageID());</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (messageConsumer != <span class="keyword">null</span>)</div><div class="line">            messageConsumer.close();</div><div class="line">        <span class="keyword">if</span> (session != <span class="keyword">null</span>)</div><div class="line">            session.close();</div><div class="line">        <span class="keyword">if</span> (activeMQConnection != <span class="keyword">null</span>)</div><div class="line">            activeMQConnection.close();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException, InterruptedException </span>&#123;</div><div class="line">        ConsumerTest test = <span class="keyword">new</span> ConsumerTest();</div><div class="line">        test.initialize();</div><div class="line">        test.consumeMessage();</div><div class="line">        Thread.sleep(<span class="number">5000000</span>);</div><div class="line">        test.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  消息监听器，如果有消息进入队列，则自动触发。</div><div class="line">     *      消息监听器不能和received共存。同一个session下要么都用监听器接受消息，要么都用receive接受。</div><div class="line">     *      如果既用监听器又用receive接受，程序会抛异常。</div><div class="line">     * <span class="doctag">@param</span> message</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Message message)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            System.out.println(message.getJMSMessageID());</div><div class="line">            System.out.println(((TextMessage) message).getText());</div><div class="line">        &#125; <span class="keyword">catch</span> (JMSException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Queue-点对点模型消息发送方代码"><a href="#Queue-点对点模型消息发送方代码" class="headerlink" title="Queue 点对点模型消息发送方代码"></a>Queue 点对点模型消息发送方代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> io.github.dearas.Activemq.Queue;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnection;</div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.jms.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 一对一生产消费模式：消息生产者。</div><div class="line"> *</div><div class="line"> * Created by tnp on 22/04/2017.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProducerTest</span> </span>&#123;</div><div class="line">    <span class="comment">// activeMq链接</span></div><div class="line">    <span class="keyword">private</span> Connection connection;</div><div class="line">    <span class="comment">// 消息生产者</span></div><div class="line">    <span class="keyword">private</span> MessageProducer messageProducer;</div><div class="line">    <span class="comment">// 会话者</span></div><div class="line">    <span class="keyword">private</span> Session session;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="comment">//1.获取一个ActiveMQ连接工厂</span></div><div class="line">        ActiveMQConnectionFactory activeMQConnectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,</div><div class="line">                ActiveMQConnection.DEFAULT_PASSWORD,</div><div class="line">                <span class="string">"failover://tcp://192.168.1.99:61616"</span>);</div><div class="line">        <span class="comment">//2.获取一个ActiveMQ链接</span></div><div class="line">        connection = activeMQConnectionFactory.createConnection();</div><div class="line">        <span class="comment">//3.获取一个会话 不开启事务，默认自动接收消息</span></div><div class="line">        session = connection.createSession(<span class="keyword">false</span>, Session.AUTO_ACKNOWLEDGE);</div><div class="line"></div><div class="line">        <span class="comment">//4.通过session获取一个队列的目的地 Queue 或者 Topic</span></div><div class="line">        Destination destination = session.createQueue(<span class="string">"tnp.queue"</span>);</div><div class="line"></div><div class="line">        <span class="comment">//5.通过session获取一个消息创建者</span></div><div class="line">        messageProducer = session.createProducer(destination);</div><div class="line">        messageProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);   <span class="comment">//持久化</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 生产消息</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">producerMessage</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        connection.start();</div><div class="line">        <span class="comment">//TextMessage textMessage = session.createTextMessage()</span></div><div class="line">        TextMessage textMessage = session.createTextMessage();</div><div class="line">        textMessage.setText(<span class="string">"Vinci Come On !"</span>);</div><div class="line"></div><div class="line">        messageProducer.send(textMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (messageProducer != <span class="keyword">null</span>)</div><div class="line">            messageProducer.close();</div><div class="line">        <span class="keyword">if</span> (session != <span class="keyword">null</span>)</div><div class="line">            session.close();</div><div class="line">        <span class="keyword">if</span> (connection != <span class="keyword">null</span>)</div><div class="line">            connection.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException </span>&#123;</div><div class="line">        ProducerTest test = <span class="keyword">new</span> ProducerTest();</div><div class="line">        test.initialize();</div><div class="line">        test.producerMessage();</div><div class="line">        test.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="ActiveMQ实例使用总结"><a href="#ActiveMQ实例使用总结" class="headerlink" title="ActiveMQ实例使用总结"></a>ActiveMQ实例使用总结</h3><h4 id="点对点模式-与-发布订阅模式的区别"><a href="#点对点模式-与-发布订阅模式的区别" class="headerlink" title="点对点模式 与 发布订阅模式的区别"></a>点对点模式 与 发布订阅模式的区别</h4><blockquote>
+<p>1.点对点模式，一条消息只能被一个消费者消费； 而发布订阅模式，一条消息可以被多个消费者消费。</p>
+<p>2.点对点模式，消息发送者设置消息模式为持久模式Delivery.PERSISTENT后，消费者即使不在线。同样能够接受到下线期间的消息； 而发布订阅模式下，只有消息发送者设置为持久下次，并且，消息订阅者(也就是消息消费者)设置为持久订阅者才可以接受到下线期间的消息(配置方式见代码)。</p>
+</blockquote>
+<h3 id="值得注意的地方"><a href="#值得注意的地方" class="headerlink" title="值得注意的地方"></a>值得注意的地方</h3><blockquote>
+<p>1.同一个Session下消息的接受方式只能使用一种，要么使用Listener,要么手动receive。</p>
+<p>2.持久订阅者必须设置一个唯一的ClientID,并且必须在没有创建会话之前设置。因为持久订阅者是根据clientID来发送消息的，如果没有clientid，mq则不知道该向谁发送这条消息。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JMS/" rel="tag"># JMS</a>
+          
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/19/zookeeper的分布式共享锁/" rel="prev" title="zk 基本介绍及用zookeeper实现分布式共享锁">
+                zk 基本介绍及用zookeeper实现分布式共享锁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+     <!-- 多说评论框 start -->  
+        <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>  
+<!-- 多说评论框 end -->  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"dearas"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --> 
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/headimage.jpg"
+               alt="knight_ka" />
+          <p class="site-author-name" itemprop="name">knight_ka</p>
+          <p class="site-description motion-element" itemprop="description">努力 是为了不让自己永远都‘无能为力’。用一生去诠释‘自强不息’的涵义。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DearAS" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JMS及它的一个实现ActiveMQ使用实例"><span class="nav-number">1.</span> <span class="nav-text">JMS及它的一个实现ActiveMQ使用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JMS是什么"><span class="nav-number">1.1.</span> <span class="nav-text">JMS是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JMS中的其中角色"><span class="nav-number">1.1.1.</span> <span class="nav-text">JMS中的其中角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JMS中的两种模型"><span class="nav-number">1.1.2.</span> <span class="nav-text">JMS中的两种模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ实例"><span class="nav-number">1.2.</span> <span class="nav-text">ActiveMQ实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic-发布订阅模型消息消费方代码"><span class="nav-number">1.2.1.</span> <span class="nav-text">Topic 发布订阅模型消息消费方代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic-发布订阅模型消息发送方代码"><span class="nav-number">1.2.2.</span> <span class="nav-text">Topic 发布订阅模型消息发送方代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue-点对点模型消息消费方代码"><span class="nav-number">1.2.3.</span> <span class="nav-text">Queue 点对点模型消息消费方代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue-点对点模型消息发送方代码"><span class="nav-number">1.2.4.</span> <span class="nav-text">Queue 点对点模型消息发送方代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ActiveMQ实例使用总结"><span class="nav-number">1.2.5.</span> <span class="nav-text">ActiveMQ实例使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点对点模式-与-发布订阅模式的区别"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">点对点模式 与 发布订阅模式的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#值得注意的地方"><span class="nav-number">1.2.6.</span> <span class="nav-text">值得注意的地方</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knight_ka</span>
+</div>
+
+
+<div class="powered-by">
+  笔记小站
+</div>
+
+<div class="theme-info">
+  knight_ka -
+  <a class="theme-link">
+    
+  </a>
+<span id="busuanzi_container_site_pv">
+    pv: <span id="busuanzi_value_site_pv"></span> |
+</span>
+<span id="busuanzi_container_site_uv">
+  uv: <span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dearas"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("AXx3tQgn1oh9iMbb6uO5gdIC-gzGzoHsz", "lQa5xdYNyn1Y5F3wMiARKtvO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

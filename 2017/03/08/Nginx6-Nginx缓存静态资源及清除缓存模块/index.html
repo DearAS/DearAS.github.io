@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/image/D9190D2B-76B4-40AA-9861-00A4A271E4B0.png">
 <meta property="og:image" content="http://yoursite.com/image/26DFB40E-BA18-4241-9553-559E9C2EA27F.png">
 <meta property="og:image" content="http://yoursite.com/image/3F4EEA22-9169-4C64-AC81-A8BA284CAD7B.png">
-<meta property="og:updated_time" content="2017-04-27T03:12:45.000Z">
+<meta property="og:updated_time" content="2017-04-27T03:43:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx6-Nginx缓存静态资源及清除缓存模块">
 <meta name="twitter:description" content="Nginx利用模块开发WEB缓存功能">
@@ -397,7 +397,8 @@
 <p><strong>WEB缓存模块使用流程</strong>：</p>
 <p>1.在nginx主机上创建两个用来缓存的文件夹，这两个文件夹在同一个磁盘分区，不能跨分区。</p>
 <p>2.在nginx配置文件中配置指定的url进行缓存。如gif/jpeg/css/js等文件资源</p>
-<p><img src="/image/AA56C49E-EE86-4B14-9D73-0B7FABCC4E6C.png" alt="nginx配置"><br><img src="/image/D9190D2B-76B4-40AA-9861-00A4A271E4B0.png" alt="nginx配置"></p>
+<p><img src="/image/AA56C49E-EE86-4B14-9D73-0B7FABCC4E6C.png" alt="nginx配置"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">proxy_temp_path /data0/proxy_temp_path;</div><div class="line">#设置Web缓存区名称为cache_one,内存缓存空间大小为500mb,自动清除超过1天没有被访问的缓存数据，硬盘缓存空间大小为30GB.</div><div class="line">proxy_cache_path /data0/proxy_cache_path levels=1:2 keys_zone=cache_one:500m inactive=1d max_size=30g;</div></pre></td></tr></table></figure></p>
+<p><img src="/image/D9190D2B-76B4-40AA-9861-00A4A271E4B0.png" alt="nginx配置"></p>
 <p>1.安装第三方ngx_cache_pruge模块(用于请求指定URL的缓存)</p>
 <p>2.编译并安装ngx_cache_purge到Nginx中<br><img src="/image/26DFB40E-BA18-4241-9553-559E9C2EA27F.png" alt="nginx配置"></p>
 <p>3.指定路径进行清除缓存<br><img src="/image/3F4EEA22-9169-4C64-AC81-A8BA284CAD7B.png" alt="nginx配置"></p>

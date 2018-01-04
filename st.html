@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="js/flexible.js" ></script>
+		<meta charset="utf-8" />
+		<title>手机摇一摇</title>
+		<link rel="stylesheet" href="css/index.css" />
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js" ></script>
+	</head>
+	<body>
+		<audio autoplay="autoplay" loop="-1">
+			<source src="music/bang.mov" type="audio/mpeg">
+		</audio>
+		<div class="content">
+			<div class="img">
+				<img class=" img01" src="img/11.png" />
+				<img class=" img02" src="img/14.png" />
+				<img class=" img03" src="img/15.png" />
+			</div>
+			<div class="start">
+				<a href="home.html"><img src="img/12.png"/></a>
+			</div>
+			<div class="rule">
+				<div class="rulebg">
+					<p>10秒内，摇到130次，赢取冰淇淋1支；</p>
+					<p>摇到180次，赢取冰淇淋2支；</p>
+					<p>摇到230次以上，赢取冰淇淋3支。</p>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('img').click(function(){ /*去除UC点击图片部分查看图片*/})
+			window.onload = function(){
+				/*按钮点击效果*/
+				$('.start a img').on('touchstart',function(){
+					$(this).attr('src','img/012.png')
+				})
+				$('.start a img').on('touchmove',function(){
+					$(this).attr('src','img/012.png')
+				})
+				$('.start a img').on('touchend',function(){
+					$(this).attr('src','img/12.png')
+				})
+			}
+		</script>
+	</body>
+</html>

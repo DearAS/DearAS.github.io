@@ -1,0 +1,301 @@
+@font-face {
+	font-family:'ruizi';
+	src: url('rui.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+*{
+	word-wrap:break-word;
+	margin: 0;
+	padding: 0;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);/*去掉点击高亮显示*/
+}
+::-webkit-scrollbar{width:0px;height: 0px;display: none;}  /*去掉滚动条*/
+html,body{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	font-family: "微软雅黑";
+	overflow: hidden;
+}
+body{
+	max-width: 12rem;
+	margin: 0 auto;
+	background: #fece00;
+}
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+}
+ul,li{
+	list-style: none;
+}
+img{
+	display: block;
+	width: 100%;
+	border: 0;
+}
+a,a:active,a:link,a:visited,a:hover{
+	list-style: none;
+	color: #3f3f3f;
+	text-decoration: none;
+}
+.content{
+	height: 100%;
+	position: relative;
+	overflow-y: auto;
+	background: url(../img/bg.png) no-repeat;
+	background-size: 100% 100%;
+}
+.img{
+	position: relative;
+	height: 12.93rem;
+}
+.img01{
+	padding: 0.7rem 0.32rem 0;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 9;
+}
+.img02{
+	position: absolute;
+	z-index: 8;
+	top: 4.8rem;
+	left: 50%;
+	width: 5.2rem;
+	margin-left: -2.8rem;
+	animation:shake .1s infinite;
+    -webkit-animation:shake .1s infinite; /* Safari 和 Chrome */
+}
+.img03{
+	position: absolute;
+	z-index: 9;
+	top: 10rem;
+	padding: 0 0.4rem 0 0.7rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.start{
+	position: relative;
+	z-index: 10;
+	margin-top: -0.1rem;
+	height: 1.53rem;
+}
+.start a{
+	width: 5.3rem;
+	display: block;
+	margin: 0 auto;
+}
+.rule{
+	padding: 0.37rem 0.4rem 0.38rem;
+}
+.rulebg{
+	padding: 0.4rem 0.73rem 0.5rem 0.76rem;
+	background: url(../img/13.png) no-repeat;
+	background-size: 100% 100%;
+}
+.rulebg p{
+	font-size: 0.37rem;
+	line-height: 0.58rem;
+	color: rgb(1,38,65);
+}
+
+
+
+.main{
+	height: 100%;
+	position: relative;
+	background: url(../img/bg.png) no-repeat;
+	background-size: 100% 100%;
+}
+.img09{
+	position: absolute;
+	z-index: 99;
+	top: 1rem;
+	left: 0;
+	padding: 0 0.93rem 0 0.84rem;
+	box-sizing: border-box;
+}
+.bottom{
+	position: absolute;
+	bottom: 0.61rem;
+	left: 0;
+	width: 100%;
+	text-align: center;
+
+}
+.bottom p{
+	font-size: 0.4rem;
+	line-height: 1;
+}
+.bottom .fot{
+	font-size: 0.58rem;
+}
+
+.con{
+	height: 100%;
+	position: relative;
+}
+.time{
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	margin-top: -1.2rem;
+	font-size: 1.1rem;
+	color: rgb(232,136,24);
+}
+.time #clock{
+	font-size: 2.4rem;
+}
+.con img.ice{
+	width: 2.1rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	animation:downo 2s ease both ;
+	-webkit-animation:downo 2s ease both ;
+}
+
+/*.con img.ice2{
+	top: 60%;
+	transition: 2s;
+}*/
+@-webkit-keyframes shake {
+	0% {-webkit-transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+	50% {-webkit-transform: rotate(-5deg) translate3d(0,0,0)}
+	100% {-webkit-transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+}
+@-moz-keyframes shake {
+	0% {transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+	50% {transform: rotate(-5deg) translate3d(1rem,0.5rem,0)}
+	100% {transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+}
+@-ms-keyframes shake {
+	0% {transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+	50% {transform: rotate(-5deg) translate3d(1rem,0.5rem,0)}
+	100% {transform: rotate(5deg) translate3d(1rem,0.5rem,0)}
+}
+
+@-webkit-keyframes downo {
+	0% {top: 0;}
+	100% {top: 100%;}
+}
+@-moz-keyframes downo {
+	0% {top: 0;}
+	100% {top: 100%;}
+}
+@-ms-keyframes downo {
+	0% {top: 0;}
+	100% {top: 100%;}
+}
+
+
+/*结果*/
+.resultbg{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 999;
+	background: rgba(0,0,0,0.8);
+}
+.resultcon{
+	position: absolute;
+	z-index: 1111;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	font-family: 'ruizi';
+}
+.relative{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.resultp{
+	position: relative;
+	top: 35%;
+}
+.resultp p{
+	color: #fff;
+	font-size: 0.58rem;
+	line-height: 2;
+	text-align: center;
+}
+.start02{
+	position: relative;
+	top: 50%;
+	height: 1.53rem;
+}
+.start02 a{
+	width: 5.3rem;
+	display: block;
+	margin: 0 auto;
+}
+
+.resultp02{
+	position: relative;
+	z-index: 1;
+	top: 7%;
+	text-align: center;
+}
+.resultp02 p{
+	color: #fff;
+	font-size: 0.58rem;
+	line-height: 1.8;
+	text-align: center;
+}
+.resultp02 img{
+	display: inline-block;
+	width: 4.8rem;
+	margin: 0 0.3rem;
+}
+.resultp02 p.colory{
+	color: rgb(254,206,0);
+}
+.rule02{
+	position: relative;
+	top: 5%;
+	padding: 0.37rem 0.5rem 0.38rem;
+}
+.rulebg02{
+	padding: 0.3rem 0.73rem 0.4rem 0.76rem;
+	background: url(../img/13.png) no-repeat;
+	background-size: 100% 100%;
+}
+.rulebg02 p{
+	font-size: 0.43rem;
+	line-height: 0.6rem;
+	color: rgb(1,38,65);
+	text-align: center;
+	font-family: "微软雅黑";
+}
+.start03{
+	position: relative;
+	top: 6%;
+	height: 1.53rem;
+}
+.start03 a{
+	width: 5.3rem;
+	display: block;
+	margin: 0 auto;
+}
+@media only screen and (max-height: 480px)  {
+	.resultp02{
+		top: 2%;
+	}
+	.resultp02 p{
+		font-size: 0.54rem;
+		line-height: 1.6;
+	}
+		.rule02{
+		top: 1%;
+	}
+	.start03{
+		top: 0%;
+	}
+}

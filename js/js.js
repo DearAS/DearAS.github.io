@@ -89,7 +89,7 @@ var result2 = '<div class="resultcon">\
 var result3 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>厉害了少年，你摇了<span id="num01">0</span>次</p>\
+					<p>厉害了少年，你摇了<span id="num">0</span>次</p>\
 					<p>这张美图给你啦~(随机生成)</p>\
 					<img style="width: 300px;height: 250px; margin-left: 145px;"class="daniel" src="img/###.jpg" />\
 				</div>\
@@ -132,7 +132,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//230以上送3支冰淇淋
-	if(number>=200){
+	if(number>=235){
 		$('body').append(result3)
 		dimg = deniel[GetRandomNum(0,2)]
 		$('.daniel').attr("src",dimg)

@@ -123,7 +123,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//180-230送2支冰淇淋
-	if(number>=150 && number<200){
+	if(number>=150 && number<235){
 		$('body').append(result2)
 		$('.iceimg').attr("src","img/022.png")
 		$("#m").text(number)

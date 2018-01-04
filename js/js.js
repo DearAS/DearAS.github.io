@@ -19,7 +19,7 @@ $(function(){
 	var i = 0;
 	if(window.DeviceMotionEvent) { 
 		//修改此数据可以控制摇一摇难易程度
-		var speed = 35;
+		var speed = 20;
 		var x = y = z = lastX = lastY = lastZ = 0;
 		window.addEventListener('devicemotion', function(){
 			var acceleration =event.accelerationIncludingGravity;
@@ -72,14 +72,13 @@ var result2 = '<div class="resultcon">\
 							<p>你摇了<span id="m">50</span>次</p>\
 							<p>平时没少修炼吧 ^_^</p>\
 							<img class="iceimg" src="img/011.png" />\
-							<p>你得到的奖励是：逗笑小雨同学<span id="n">1</span>次</p>\
+							<p>你得到的奖励是：逗小雨同学笑<span id="n">1</span>次</p>\
 							<p>每一次获奖都是上天的恩赐，请把奖品当作一种责任，认真对待</p>\
-							<p>哈哈哈~ 快带着你真诚的心找小雨同学领取奖励吧~</p>\
 						</div>\
 						<div class="rule02">\
 							<div class="rulebg02">\
-								<p>关闭页面前，请一定要记得带着你真诚的新去履行任务哦，</p>\
-								<p>不做的人会受到上帝的惩罚的(认真脸)。</p>\
+								<p>关闭页面前，请一定要记得带着你真诚的心去领取奖励哦，</p>\
+								<p>不然会受到上天的惩罚的!(认真脸)</p>\
 							</div>\
 						</div>\
 						<div class="start03">\
@@ -90,19 +89,29 @@ var result2 = '<div class="resultcon">\
 var result3 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<img style="width: 300px;height: 250px; margin-left: 145px;"class="daniel" src="img/daniel.jpg" />\
+					<p>厉害了少年，你摇了<span id="num01">0</span>次</p>\
+					<p>这张美图给你啦~(随机生成)</p>\
+					<img style="width: 300px;height: 250px; margin-left: 145px;"class="daniel" src="img/###.jpg" />\
 				</div>\
 				<div class="start02">\
 					<a href="home.html"><img src="img/12.png"/></a>\
 				</div>\
 			</div>\
 		</div>';
+function GetRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}
+
+deniel = ["img/d0.jpg","img/d1.gif","img/d2.jpg"]
 function result(){
 	$('body').append(resultbg)
 	var number = $("#num").text();
 	//100以下无奖品
 	if(number < 100){
-		$('body').append(result3)
+		$('body').append(result1)
 		$("#num01").text(number)
 	}
 	//130-180送1支冰淇淋
@@ -125,6 +134,8 @@ function result(){
 	//230以上送3支冰淇淋
 	if(number>=200){
 		$('body').append(result3)
+		dimg = deniel[GetRandomNum(0,2)]
+		$('.daniel').attr("src",dimg)
 		$('.iceimg').attr("src","img/033.png")
 		$("#m").text(number)
 		$("#n").text(3)

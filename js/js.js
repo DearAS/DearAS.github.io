@@ -19,7 +19,7 @@ $(function(){
 	var i = 0;
 	if(window.DeviceMotionEvent) { 
 		//修改此数据可以控制摇一摇难易程度
-		var speed = 20;
+		var speed = 35;
 		var x = y = z = lastX = lastY = lastZ = 0;
 		window.addEventListener('devicemotion', function(){
 			var acceleration =event.accelerationIncludingGravity;

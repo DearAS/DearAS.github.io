@@ -89,7 +89,7 @@ var result2 = '<div class="resultcon">\
 var result3 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>厉害了少年，你摇了<span id="num">0</span>次</p>\
+					<p>厉害了少年，你摇了<span id="m">0</span>次</p>\
 					<p>这张美图给你啦~(随机生成)</p>\
 					<img style="width: 300px;height: 250px; margin-left: 145px;"class="daniel" src="img/###.jpg" />\
 				</div>\

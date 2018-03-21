@@ -55,9 +55,9 @@ var resultbg = '<div class="resultbg"></div>';
 var result1 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>笨蛋，很遗憾，你只摇了<span id="num01">0</span>次</p>\
-					<p>讲真心话，你笨得一批，我已经把难度系数调到最低了。</p>\
-					<p>回家再修炼两年,古德拜~</p>\
+					<p>很遗憾，你只摇了<span id="num01">0</span>次</p>\
+					<p>手速这么慢，怎么过一生</p>\
+					<p>再接再厉呦~</p>\
 				</div>\
 				<div class="start02">\
 					<a href="home.html"><img src="img/12.png"/></a>\
@@ -70,15 +70,15 @@ var result2 = '<div class="resultcon">\
 						<div class="resultp02">\
 							<p>厉害啊少年，</p>\
 							<p>你摇了<span id="m">50</span>次</p>\
-							<p>平时没少修炼吧 ^_^</p>\
+							<p>平时没少修炼吧</p>\
 							<img class="iceimg" src="img/011.png" />\
-							<p>你得到的奖励是：逗小雨同学笑<span id="n">1</span>次</p>\
-							<p>每一次获奖都是上天的恩赐，请把奖品当作一种责任，认真对待</p>\
+							<p>拿好你的<span id="n">1</span>支冰淇淋</p>\
+							<p class="colory">兑换码：<span id="ranum">21516541321</span></p>\
 						</div>\
 						<div class="rule02">\
 							<div class="rulebg02">\
-								<p>关闭页面前，请一定要记得带着你真诚的心去领取奖励哦，</p>\
-								<p>不然会受到上天的惩罚的!(认真脸)</p>\
+								<p>关闭页面前一定要先截屏，</p>\
+								<p>别让优惠从指缝中溜走哦~</p>\
 							</div>\
 						</div>\
 						<div class="start03">\
@@ -86,36 +86,16 @@ var result2 = '<div class="resultcon">\
 						</div>\
 					</div>\
 				</div>';
-var result3 = '<div class="resultcon">\
-			<div class="relative">\
-				<div class="resultp">\
-					<p>厉害了少年，你摇了<span id="m">0</span>次</p>\
-					<p>这张美图给你啦~(随机生成)</p>\
-					<img style="width: 300px;height: 250px; margin-left: 145px;"class="daniel" src="img/###.jpg" />\
-				</div>\
-				<div class="start02">\
-					<a href="home.html"><img src="img/12.png"/></a>\
-				</div>\
-			</div>\
-		</div>';
-function GetRandomNum(Min,Max)
-{   
-var Range = Max - Min;   
-var Rand = Math.random();   
-return(Min + Math.round(Rand * Range));   
-}
-
-deniel = ["img/d0.jpg","img/d1.gif","img/d2.jpg"]
 function result(){
 	$('body').append(resultbg)
 	var number = $("#num").text();
-	//100以下无奖品
-	if(number < 100){
+	//130以下无奖品
+	if(number < 130){
 		$('body').append(result1)
 		$("#num01").text(number)
 	}
 	//130-180送1支冰淇淋
-	if(number>=100 && number<150){
+	if(number>=130 && number<180){
 		$('body').append(result2)
 		$("#m").text(number)
 		$("#n").text(1)
@@ -123,7 +103,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//180-230送2支冰淇淋
-	if(number>=150 && number<235){
+	if(number>=180 && number<230){
 		$('body').append(result2)
 		$('.iceimg').attr("src","img/022.png")
 		$("#m").text(number)
@@ -132,10 +112,8 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//230以上送3支冰淇淋
-	if(number>=235){
-		$('body').append(result3)
-		dimg = deniel[GetRandomNum(0,2)]
-		$('.daniel').attr("src",dimg)
+	if(number>=230){
+		$('body').append(result2)
 		$('.iceimg').attr("src","img/033.png")
 		$("#m").text(number)
 		$("#n").text(3)
@@ -162,7 +140,7 @@ function result(){
 	        pos = Math.round(Math.random() * (arr.length-1));
 	        str += arr[pos];
 	    }
-	    return "Simle";
+	    return str;
 	}
 }
 

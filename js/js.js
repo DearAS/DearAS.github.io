@@ -55,8 +55,8 @@ var resultbg = '<div class="resultbg"></div>';
 var result1 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p>\
-					<p>静怡是智障！</p>\
+					<p>你摇了<span id="num01">0</span>次</p><p>静怡是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz4.jpg"/>\
+					\
 					<p></p>\
 				</div>\
 				<div class="start02">\
@@ -68,8 +68,8 @@ var result1 = '<div class="resultcon">\
 		var result3 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p>\
-					<p>小绿是智障！</p>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
+					\
 					<p></p>\
 				</div>\
 				<div class="start02">\
@@ -80,8 +80,8 @@ var result1 = '<div class="resultcon">\
 		var result4 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p>\
-					<p>静怡是智障！</p>\
+					<p>你摇了<span id="num01">0</span>次</p><p>静怡是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz4.jpg"/>\
+					\
 					<p></p>\
 				</div>\
 				<div class="start02">\
@@ -92,8 +92,8 @@ var result1 = '<div class="resultcon">\
 		var result5 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p>\
-					<p>小绿是智障！</p>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
+					\
 					<p></p>\
 				</div>\
 				<div class="start02">\
@@ -104,8 +104,8 @@ var result1 = '<div class="resultcon">\
 		var result6 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p>\
-					<p>小绿是智障！</p>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
+					\
 					<p></p>\
 				</div>\
 				<div class="start02">\

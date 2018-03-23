@@ -55,9 +55,58 @@ var resultbg = '<div class="resultbg"></div>';
 var result1 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>很遗憾，你只摇了<span id="num01">0</span>次</p>\
-					<p>手速这么慢，怎么过一生</p>\
-					<p>再接再厉呦~</p>\
+					<p>你摇了<span id="num01">0</span>次</p>\
+					<p>静怡是智障！</p>\
+					<p></p>\
+				</div>\
+				<div class="start02">\
+					<a href="home.html"><img src="img/12.png"/></a>\
+				</div>\
+			</div>\
+		</div>';
+
+		var result3 = '<div class="resultcon">\
+			<div class="relative">\
+				<div class="resultp">\
+					<p>你摇了<span id="num01">0</span>次</p>\
+					<p>小绿是智障！</p>\
+					<p></p>\
+				</div>\
+				<div class="start02">\
+					<a href="home.html"><img src="img/12.png"/></a>\
+				</div>\
+			</div>\
+		</div>';
+		var result4 = '<div class="resultcon">\
+			<div class="relative">\
+				<div class="resultp">\
+					<p>你摇了<span id="num01">0</span>次</p>\
+					<p>静怡是智障！</p>\
+					<p></p>\
+				</div>\
+				<div class="start02">\
+					<a href="home.html"><img src="img/12.png"/></a>\
+				</div>\
+			</div>\
+		</div>';
+		var result5 = '<div class="resultcon">\
+			<div class="relative">\
+				<div class="resultp">\
+					<p>你摇了<span id="num01">0</span>次</p>\
+					<p>小绿是智障！</p>\
+					<p></p>\
+				</div>\
+				<div class="start02">\
+					<a href="home.html"><img src="img/12.png"/></a>\
+				</div>\
+			</div>\
+		</div>';
+		var result6 = '<div class="resultcon">\
+			<div class="relative">\
+				<div class="resultp">\
+					<p>你摇了<span id="num01">0</span>次</p>\
+					<p>小绿是智障！</p>\
+					<p></p>\
 				</div>\
 				<div class="start02">\
 					<a href="home.html"><img src="img/12.png"/></a>\
@@ -90,36 +139,46 @@ function result(){
 	$('body').append(resultbg)
 	var number = $("#num").text();
 	//130以下无奖品
-	if(number < 130){
+	if(number < 100){
 		$('body').append(result1)
 		$("#num01").text(number)
 	}
 	//130-180送1支冰淇淋
-	if(number>=130 && number<180){
-		$('body').append(result2)
-		$("#m").text(number)
+	if(number>=100 && number<150){
+		$('body').append(result3)
+		$("#num01").text(number)
 		$("#n").text(1)
 		var ranum = randomWord(false,10,10);
 		$("#ranum").text(ranum)
 	}
 	//180-230送2支冰淇淋
-	if(number>=180 && number<230){
-		$('body').append(result2)
+	if(number>=150 && number<180){
+		$('body').append(result4)
 		$('.iceimg').attr("src","img/022.png")
-		$("#m").text(number)
+		$("#num01").text(number)
 		$("#n").text(2)
 		var ranum = randomWord(false,10,10);
 		$("#ranum").text(ranum)
 	}
 	//230以上送3支冰淇淋
-	if(number>=230){
-		$('body').append(result2)
+	if(number>=180 && number<220){
+		$('body').append(result5)
 		$('.iceimg').attr("src","img/033.png")
-		$("#m").text(number)
+		$("#num01").text(number)
 		$("#n").text(3)
 		var ranum = randomWord(false,10,10);
 		$("#ranum").text(ranum)
 	}
+	
+	if(number>=220){
+		$('body').append(result6)
+		$('.iceimg').attr("src","img/033.png")
+		$("#num01").text(number)
+		$("#n").text(3)
+		var ranum = randomWord(false,10,10);
+		$("#ranum").text(ranum)
+	}
+	
 	atouch()
 	
 	/*

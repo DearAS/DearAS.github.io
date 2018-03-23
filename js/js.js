@@ -55,7 +55,7 @@ var resultbg = '<div class="resultbg"></div>';
 var result1 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p><p>弟弟是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz2.jpg"/>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
 					\
 					<p></p>\
 				</div>\
@@ -80,7 +80,7 @@ var result1 = '<div class="resultcon">\
 		var result4 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p><p>静怡是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz4.jpg"/>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
 					\
 					<p></p>\
 				</div>\
@@ -104,7 +104,7 @@ var result1 = '<div class="resultcon">\
 		var result6 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p><p>阿甘是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz0.jpg"/>\
+					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
 					\
 					<p></p>\
 				</div>\

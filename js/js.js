@@ -55,7 +55,7 @@ var resultbg = '<div class="resultbg"></div>';
 var result1 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p><p>静怡是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz4.jpg"/>\
+					<p>你摇了<span id="num01">0</span>次</p><p>弟弟是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz2.jpg"/>\
 					\
 					<p></p>\
 				</div>\
@@ -104,7 +104,7 @@ var result1 = '<div class="resultcon">\
 		var result6 = '<div class="resultcon">\
 			<div class="relative">\
 				<div class="resultp">\
-					<p>你摇了<span id="num01">0</span>次</p><p>小绿是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz3.jpg"/>\
+					<p>你摇了<span id="num01">0</span>次</p><p>阿甘是智障！</p><img style="margin:0 auto;width:50%;height:50%" src="img/zz0.jpg"/>\
 					\
 					<p></p>\
 				</div>\
@@ -139,12 +139,12 @@ function result(){
 	$('body').append(resultbg)
 	var number = $("#num").text();
 	//130以下无奖品
-	if(number < 100){
+	if(number < 30){
 		$('body').append(result1)
 		$("#num01").text(number)
 	}
 	//130-180送1支冰淇淋
-	if(number>=100 && number<150){
+	if(number>=30 && number<50){
 		$('body').append(result3)
 		$("#num01").text(number)
 		$("#n").text(1)
@@ -152,7 +152,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//180-230送2支冰淇淋
-	if(number>=150 && number<180){
+	if(number>=50 && number<100){
 		$('body').append(result4)
 		$('.iceimg').attr("src","img/022.png")
 		$("#num01").text(number)
@@ -161,7 +161,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	//230以上送3支冰淇淋
-	if(number>=180 && number<220){
+	if(number>=100 && number<130){
 		$('body').append(result5)
 		$('.iceimg').attr("src","img/033.png")
 		$("#num01").text(number)
@@ -170,7 +170,7 @@ function result(){
 		$("#ranum").text(ranum)
 	}
 	
-	if(number>=220){
+	if(number>=130){
 		$('body').append(result6)
 		$('.iceimg').attr("src","img/033.png")
 		$("#num01").text(number)
